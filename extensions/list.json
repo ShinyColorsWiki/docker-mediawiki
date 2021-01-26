@@ -1,0 +1,109 @@
+{
+    "WikiMedia": [
+        "AbuseFilter",
+        "AdvancedSearch",
+        "AntiSpoof",
+        "BetaFeatures",
+        "Cargo",
+        "CheckUser",
+        "CirrusSearch",
+        "CodeMirror",
+        "ContactPage",
+        "ContributionScores",
+        "CookieWarning",
+        "CSS",
+        "Description2",
+        "DismissableSiteNotice",
+        "Elastica",
+        "EmbedVideo",
+        "googleAnalytics",
+        "Graph",
+        "Echo",
+        "JsonConfig",
+        "LookupUser",
+        "Loops",
+        "Math",
+        "Mermaid",
+        "MonileFrontend",
+        "MsUpload",
+        "OpenGraphMeta",
+        "Popups",
+        "RelatedArticles",
+        "RevisionSlider",
+        "RSS",
+        "Score",
+        "Sentry",
+        "SmiteSpam",
+        "StopForumSpam",
+        "TemplateWizard",
+        "Thanks",
+        "TimedMediaHandler",
+        "TrustedXFF",
+        "TwoColConflict",
+        "UserMerge",
+        "Variables",
+        "Widgets",
+        "WikiSEO"
+    ],
+
+    "non-WMF" : [
+        {
+            "name": "AWS",
+            "inner_name": "mediawiki-aws-s3-$[n_version]",
+            "url": "https://github.com/edwardspec/mediawiki-aws-s3/archive/$[version].zip",
+            "version": "v0.11.1"
+        },
+        {
+            "name": "AwsSesMailer",
+            "inner_name": "Mediawiki-AWS-SES-Mailer-master",
+            "url": "https://github.com/ShinyColorsWiki/Mediawiki-AWS-SES-Mailer/archive/master.zip"
+        },
+        {
+            "name": "Discord",
+            "inner_name": "mw-discord-$[version]",
+            "url": "https://github.com/jaydenkieran/mw-discord/archive/$[version].zip",
+            "version": "REL1_35"
+        },
+        {
+            "name": "GTag",
+            "inner_name": "mediawiki-GTag-master",
+            "url": "https://github.com/SkizNet/mediawiki-GTag/archive/master.zip"
+        }
+    ],
+
+    "Bundled": [
+        "CategoryTree",
+        "Cite",
+        "CiteThisPage",
+        "CodeEditor",
+        "ConfirmEdit",
+        "Gadgets",
+        "ImageMap",
+        "InputBox",
+        "Interwiki",
+        "LocalisationUpdate",
+        "MultimediaViewer",
+        "Nuke",
+        "OATHAuth",
+        "PageImages",
+        "ParserFunctions",
+        "PdfHandler",
+        "Poem",
+        "Renameuser",
+        "ReplaceText",
+        "Scribunto",
+        "SecureLinkFixer",
+        "SpamBlacklist",
+        "SyntaxHighlight",
+        "TemplateData",
+        "TextExtracts",
+        "TitleBlacklist",
+        "VisualEditor",
+        "WikiEditor"
+    ],
+
+    "Composer-Install": [
+        "SemanticMediaWiki",
+        "SemanticResultFormats"
+    ]
+}
