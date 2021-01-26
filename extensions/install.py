@@ -7,6 +7,7 @@ import zipfile
 import time
 import shutil
 import multiprocessing
+import subprocess
 from urllib.request import urlopen, urlretrieve
 
 if len(sys.argv) < 2:
@@ -17,8 +18,10 @@ MW_BRANCH = sys.argv[1]
 with open(os.path.join(sys.path[0], "list.json"), "r") as l:
     extlist = json.load(l)
 
-TEMP = tempfile.TemporaryDirectory()
+#TEMP = tempfile.TemporaryDirectory()
+TEMP = "/tmp/extension_temp"
 
+composer_home = "/tmp/composer"
 dest = "/tmp/mediawiki"
 
 def getWMFExtensionDLUrl(name):
@@ -84,7 +87,17 @@ def nonWmfDownloadHandler(obj):
         extract_path = unTar(name, os.path.join(t[0], t[1]))
 
     movedir(os.path.join(extract_path, inner_name), f"{dest}/extensions/{name}")
+    composerDeps(f"{dest}/extensions/{name}")
 
+def composerDeps(path): 
+    if os.path.isfile(f"{path}/composer.json"):
+        # www-data doesn't have a write access on `/var/www/.composer`. overriding.
+        current_env = os.environ.copy()
+        current_env['COMPOSER_HOME'] = composer_home
+
+        print("Install Composer Dependencies...")
+        subprocess.call(["composer", "update", "--no-dev", "--working-dir", f"'{path}'"],
+            env=current_env)
 
 def movedir(old, new): 
     print(f"Moving [{old}] to [{new}]...")

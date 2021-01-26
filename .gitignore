@@ -1,0 +1,2 @@
+/config/secret.*
+!/config/secret.*.example
