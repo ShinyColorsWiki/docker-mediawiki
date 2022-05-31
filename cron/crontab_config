@@ -1,0 +1,4 @@
+0 1,13 * * * /usr/local/bin/generate-sitemap >> /var/log/cron.log 2>&1
+0 0 * * 1 /usr/local/bin/generate-backup >> /var/log/cron.log 2>&1
+0 0 * * * /usr/local/bin/generate-dumps >> /var/log/cron.log 2>&1
+* * * * * /usr/local/bin/run-jobs

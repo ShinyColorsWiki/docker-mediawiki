@@ -1,0 +1,12 @@
+#!/bin/sh
+
+cd /srv/wiki
+
+sudo -u caddy -g www-data \
+    php w/maintenance/generateSitemap.php \
+    --memory-limit=50M \
+    --fspath=sitemap \
+    --identifier=shinywiki \
+    --urlpath=/sitemap/ \
+    --server=https://shinycolors.wiki \
+    --compress=yes

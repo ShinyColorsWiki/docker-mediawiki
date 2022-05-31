@@ -1,0 +1,52 @@
+# Testing purpose.
+version: '3'
+services:
+  http:
+    image: ghcr.io/shinycolorswiki/mediawiki:latest
+    command: caddy run
+    ports:
+      - 8080:8080
+    volumes:
+      - caddy:/etc/caddycerts
+      - ./config/Caddyfile:/srv/wiki/Caddyfile:ro
+      - sitemap:/srv/wiki/sitemap:ro
+      - images:/srv/wiki/w/images:ro
+    environment:
+      - CADDYPATH=/etc/caddycerts
+  fastcgi:
+    image: ghcr.io/shinycolorswiki/mediawiki:latest
+    volumes:
+      - ./dev:/setting:ro
+      - sitemap:/srv/wiki/sitemap
+      - images:/srv/wiki/w/images
+    environment:
+      - MEDIAWIKI_SERVER=http://127.0.0.1:8080
+      - MEDIAWIKI_DEBUG=1
+    depends_on:
+      - mariadb
+      - redis
+      - elasticsearch
+  mariadb:
+    image: mariadb:10
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=therootpassword
+      - MYSQL_DATABASE=shinywiki
+      - MYSQL_USER=shinywiki
+      - MYSQL_PASSWORD=shinywiki
+    expose:
+      - 3306
+  redis:
+    image: redis:7-alpine
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.23
+    expose:
+      - 9200
+
+volumes:
+  caddy:
+  sitemap:
+  images:
+  db:
+  redis:

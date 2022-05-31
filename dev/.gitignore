@@ -1,0 +1,4 @@
+/aws.env
+/secret.php
+/wiki/**/*
+!/wiki/.gitkeep

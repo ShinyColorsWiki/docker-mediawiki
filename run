@@ -1,0 +1,57 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "Starting wiki..."
+
+# Wait until other services are fully started.
+seconds=10
+echo "Wait $seconds(s) for boot other system..."
+sleep $seconds
+
+if [ -z "${MEDIAWIKI_SKIP_INSTALL:-}" ]; then
+  echo "Start install mediawiki..."
+  DB_NAME="$(php -r 'require "/setting/secret.php"; echo $wgDBname;')"
+  DB_HOSTNAME="$(php -r 'require "/setting/secret.php"; echo $wgDBserver;')"
+  DB_USERNAME="$(php -r 'require "/setting/secret.php"; echo $wgDBuser;')"
+  DB_PASSWORD="$(php -r 'require "/setting/secret.php"; echo $wgDBpassword;')"
+  php /srv/wiki/w/maintenance/install.php \
+    --scriptpath '/w' \
+    --dbtype mysql \
+    --dbname "${DB_NAME}" \
+    --dbserver "${DB_HOSTNAME}" \
+    --dbuser "${DB_USERNAME}" \
+    --dbpass "${DB_PASSWORD}" \
+    --installdbuser "${DB_USERNAME}" \
+    --installdbpass "${DB_PASSWORD}" \
+    --pass 'shinycolors.wiki' \
+    'admin' admin
+fi
+
+# Overwrite to existing configuration.
+ln -sf /setting/wiki/LocalSettings.php /srv/wiki/w/LocalSettings.php
+ln -sf /setting/aws.env /etc/aws.env
+
+rebuild_index () {
+    # SMW Elastic Index
+    sudo -u caddy -g www-data php /srv/wiki/w/extensions/SemanticMediaWiki/maintenance/rebuildElasticIndex.php & \
+    # Search Elastic Index
+    sudo -u caddy -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php --startOver && \
+    sudo -u caddy -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip & \
+    sudo -u caddy -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse & \
+    sudo -u caddy -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php
+}
+
+if [ -z "${MEDIAWIKI_SKIP_UPDATE:-}" ]; then
+    sudo -u caddy -g www-data php /srv/wiki/w/maintenance/update.php --quick 
+fi
+
+# Start cron daemon
+crond -b
+
+# Override listen
+sed -i -e "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/g" /etc/php7/php-fpm.d/www.conf && \
+# Override clear_env for pass docker variables
+sed -i -e "s/;\?clear_env = \(no\|yes\)/clear_env = no/g" /etc/php7/php-fpm.d/www.conf
+
+# Run rebuild index and php-fpm
+rebuild_index & /usr/sbin/php-fpm7 -F

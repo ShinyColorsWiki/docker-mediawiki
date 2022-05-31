@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# --------
+# Settings
+# --------
+
+datestamp=`date +'%Y-%m-%d'`
+php="sudo -u caddy -g www-data php"
+wikiname="shinywiki"
+tempdir="/tmp/wiki-dumps-$datestamp"
+workingdir="/srv/wiki"
+
+## START
+echo " START "
+
+day=`date +'%d'`
+
+mkdir $tempdir
+
+# Get AWS Environment...
+cat /etc/aws.env | sed 's/^\(.*\)$/export \1/g' | grep -E "^export AWS" | cat - > /etc/aws.env.sh
+source /etc/aws.env.sh
+rm /etc/aws.env.sh
+
+# --- Generate ---
+
+$php $workingdir/w/maintenance/dumpBackup.php --current > $tempdir/$wikiname-current-$datestamp.xml
+bzip2 -z $tempdir/$wikiname-current-$datestamp.xml
+if [ $day == "01" ] || [ $day == "15" ]
+then
+    $php $workingdir/w/maintenance/dumpBackup.php --full >  $tempdir/$wikiname-full-$datestamp.xml
+    bzip2 -z $tempdir//$wikiname-full-$datestamp.xml
+fi
+
+# --- Upload ---
+
+cd $tempdir
+
+/usr/local/bin/s3-uploader -b $AWS_BUCKET_DUMP -f ./$wikiname-current-$datestamp.xml.bz2
+if [ $day == "01" ] || [ $day == "15" ]
+then
+    /usr/local/bin/s3-uploader -z -b $AWS_BUCKET_DUMP -f ./$wikiname-full-$datestamp.xml.bz2
+fi
+
+# --- Cleanup ---
+
+cd /
+
+rm -rf $tempdir
+
+echo " DONE "

@@ -1,0 +1,131 @@
+{
+    "MWREL": "REL1_35",
+    "Extensions": {
+        "WMF": [
+            "AbuseFilter",
+            "AdvancedSearch",
+            "AntiSpoof",
+            "BetaFeatures",
+            "Buggy",
+            "Cargo",
+            "CategoryTree",
+            "CheckUser",
+            "CirrusSearch",
+            "Cite",
+            "CiteThisPage",
+            "CodeEditor",
+            "CodeMirror",
+            "ConfirmEdit",
+            "ContactPage",
+            "ContributionScores",
+            "CookieWarning",
+            "CSS",
+            "DarkMode",
+            "Description2",
+            "DismissableSiteNotice",
+            "Echo",
+            "Elastica",
+            "Gadgets",
+            "googleAnalytics",
+            "Graph",
+            "ImageMap",
+            "InputBox",
+            "Interwiki",
+            "JsonConfig",
+            "LocalisationUpdate",
+            "LookupUser",
+            "Loops",
+            "Math",
+            "MobileFrontend",
+            "MsUpload",
+            "MultimediaViewer",
+            "Nuke",
+            "OATHAuth",
+            "OpenGraphMeta",
+            "PageImages",
+            "ParserFunctions",
+            "PdfHandler",
+            "Poem",
+            "Popups",
+            "RelatedArticles",
+            "Renameuser",
+            "ReplaceText",
+            "RevisionSlider",
+            "RSS",
+            "Score",
+            "Scribunto",
+            "SecureLinkFixer",
+            "SmiteSpam",
+            "SpamBlacklist",
+            "StopForumSpam",
+            "SyntaxHighlight_GeSHi",
+            "TemplateData",
+            "TemplateWizard",
+            "TextExtracts",
+            "Thanks",
+            "TimedMediaHandler",
+            "TitleBlacklist",
+            "TrustedXFF",
+            "TwoColConflict",
+            "UploadWizard",
+            "UserMerge",
+            "Variables",
+            "VisualEditor",
+            "Widgets",
+            "WikiEditor",
+            "WikiSEO"
+        ],
+        "Git": {
+            "AWS": {
+                "type": "github",
+                "repo": "edwardspec/mediawiki-aws-s3",
+                "branch": "master"
+            },
+            "AwsSesMailer": {
+                "type": "github",
+                "repo": "ShinyColorsWiki/Mediawiki-AWS-SES-Mailer",
+                "branch": "master"
+            },
+            "CrowdSec": {
+                "type": "github",
+                "repo": "ShinyColorsWiki/mediawiki-extension-crowdsec",
+                "branch": "master"
+            },
+            "Discord": {
+                "type": "github",
+                "repo": "jayktaylor/mw-discord",
+                "branch": "$mwrel"
+            },
+            "EmbedVideo": {
+                "type": "github",
+                "repo": "StarCitizenWiki/mediawiki-extensions-EmbedVideo",
+                "branch": "master"
+            },
+            "GTag": {
+                "type": "github",
+                "repo": "SkizNet/mediawiki-GTag",
+                "branch": "master"
+            },
+            "Sentry": {
+                "@comment": "Extension distributor has issue with Sentry Extension vendor. Download from wikimedia mirror and compose-merge.",
+                "type": "github",
+                "repo": "wikimedia/mediawiki-extensions-Sentry",
+                "branch": "master"
+            }
+        },
+        "Composer-Install": [
+            "SimpleBatchUpload",
+            "SemanticMediaWiki",
+            "SemanticResultFormats",
+            "SemanticScribunto"
+        ]
+    },
+    "Skins": {
+        "WMF": [
+            "MinervaNeue",
+            "MonoBook",
+            "Timeless",
+            "Vector"
+        ]
+    }
+}

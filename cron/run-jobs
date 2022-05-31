@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cd /srv/wiki/w
+
+sudo -u caddy -g www-data php maintenance/runJobs.php --type="enotifNotify"
+sudo -u caddy -g www-data php maintenance/runJobs.php --type="htmlCacheUpdate" --maxjobs=50
+sudo -u caddy -g www-data php maintenance/runJobs.php --wait --maxjobs=10

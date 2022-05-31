@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# TODO: Why not move this to other dockers?
+
+# Get AWS Environment...
+cat /etc/aws.env | sed 's/^\(.*\)$/export \1/g' | grep -E "^export AWS" | cat - > /etc/aws.env.sh
+source /etc/aws.env.sh
+rm /etc/aws.env.sh
+
+DB_NAME="$(php -r 'require "/setting/secret.php"; echo $wgDBname;')"
+DB_HOSTNAME="$(php -r 'require "/setting/secret.php"; echo $wgDBserver;')"
+DB_USERNAME="$(php -r 'require "/setting/secret.php"; echo $wgDBuser;')"
+DB_PASSWORD="$(php -r 'require "/setting/secret.php"; echo $wgDBpassword;')"
+
+namebase=shinywiki-dump-
+datestamp=`date +'%Y-%m-%d'`
+
+tempdir="/tmp/wiki-backup-sql-$datestamp"
+
+mkdir $tempdir
+cd $tempdir
+
+namebase=shinywiki-dump-
+datestamp=`date +'%Y-%m-%d'`
+
+if test "$1" = ""
+then
+name=$namebase$datestamp.tar.zst
+else
+name=$1
+fi
+
+mysqldump --host=$DB_HOSTNAME --user=$DB_USERNAME --password=$DB_PASSWORD --add-drop-table $DB_NAME > $name.sql
+ZSTD_CLEVEL=9 zstd -z $name.sql
+
+# upload
+/usr/local/bin/s3-uploader -b $AWS_BUCKET_BACKUP -f ./$name.sql.zst
+
+cd /
+rm -rf $tempdir
+echo " DONE "

@@ -1,0 +1,19 @@
+{
+    "extra": {
+        "merge-plugin": {
+            "include": [
+                "extensions/AWS/composer.json",
+                "extensions/AwsSesMailer/composer.json",
+                "extensions/CrowdSec/composer.json",
+                "extensions/Sentry/composer.json"
+            ]
+        }
+    },
+    "require": {
+        "mediawiki/semantic-media-wiki": "~4.0.1",
+        "mediawiki/semantic-result-formats": "~4.0.1",
+        "mediawiki/semantic-scribunto": "~2.2",
+        "mediawiki/simple-batch-upload": "^1.0",
+        "elasticsearch/elasticsearch": "~6.8.2"
+    }
+}
