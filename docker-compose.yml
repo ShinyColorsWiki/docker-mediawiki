@@ -24,7 +24,6 @@ services:
     environment:
       - MEDIAWIKI_SERVER=http://127.0.0.1:8080
       - MEDIAWIKI_DEBUG=1
-      - MEDIAWIKI_SKIP_INSTALL=1
     depends_on:
       - mariadb
       - redis

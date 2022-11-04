@@ -106,11 +106,11 @@ jobs:
     name: Trigger deploy to upstream
     runs-on: ubuntu-latest
     needs: docker
-    step:
+    steps:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          repository: ${{ secret.REPO_NAME }}
+          token: ${{ secrets.BOT_PA_TOKEN }}
+          repository: ${{ secrets.REPO_NAME }}
           event-type: update_deploy
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
