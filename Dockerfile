@@ -24,6 +24,8 @@ RUN apk add icu-dev \
     && echo 'redis' >> /usr/src/php-available-exts \
     && docker-php-ext-install redis intl calendar
 
+ARG BUILD_VER=0
+
 RUN MEDIAWIKI_MAJOR_VERSION="$(echo ${MEDIAWIKI_VERSION} | cut -d. -f-2)" MWREL="REL$(echo ${MEDIAWIKI_VERSION} | cut -d. -f-2 | sed 's/\./_/g')" \
     && curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-core-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz \
     && tar -xzf mediawiki.tar.gz --strip-components=1 --directory /tmp/mediawiki/ \

@@ -9,6 +9,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Modify scripts and get version
+      id: version
+      run: |
+        d=$(date -u '+%Y-%m-%dT%H-%M')
+        echo ::set-output name=version::$d-$(echo ${{ github.sha }} | cut -c1-7 )
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
@@ -30,6 +35,7 @@ jobs:
         platforms: linux/amd64
         cache-from: ghcr.io/shinycolorswiki/mediawiki:latest
         cache-to: mode=max,type=local,dest=/tmp/.buildx-cache
+        build_args: BUILD_VER=${{ steps.version.outputs.version }}
         load: true
         push: false
         tags: ghcr.io/shinycolorswiki/mediawiki:ci-test
@@ -73,13 +79,6 @@ jobs:
       if: success() || failure()
       run: docker compose logs | grep -iv 'fastcgi-1' | grep -iv 'http-1'
 
-
-    - name: Modify scripts and get version
-      id: version
-      run: |
-        d=$(date -u '+%Y-%m-%dT%H-%M')
-        echo ::set-output name=version::$d-$(echo ${{ github.sha }} | cut -c1-7 )
-
     - name: Login to GitHub Container Registry
       if: ${{ github.repository_owner == 'ShinyColorsWiki' && github.ref == 'refs/heads/master' }}
       uses: docker/login-action@v2
@@ -96,6 +95,7 @@ jobs:
           ghcr.io/shinycolorswiki/mediawiki:latest
           type=local,src=/tmp/.buildx-cache
         cache-to: mode=max,type=inline
+        build_args: BUILD_VER=${{ steps.version.outputs.version }}
         load: false
         push: ${{ github.repository_owner == 'ShinyColorsWiki' && github.ref == 'refs/heads/master' }}
         tags: |
