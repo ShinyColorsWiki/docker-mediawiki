@@ -4,25 +4,27 @@ ARG MEDIAWIKI_VERSION=1.39.0-rc.1
 ARG PHPREDIS_VERSION=5.3.7
 
 # Download mediawiki
-FROM php:8.0-alpine as builder
+FROM alpine:3.16 as builder
 ARG MEDIAWIKI_VERSION
 ARG PHPREDIS_VERSION
 
-# Start from composer image has issue as it's php 8. copy from it.
-# Composer 2.2 has new allow plugin feature. and Mediawiki 1.35 doesn't handle it. (Not possible without modifying MW Core composer file.)
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 RUN mkdir -p /tmp/composer /tmp/mediawiki
 COPY --from=ghcr.io/shinycolorswiki/mediawiki-extension-downloader:latest /app /tmp/mediawiki-extension-downloader
 COPY config/extension-list.json /tmp/mediawiki-extension-downloader.json
 
 # Install PHP Redis and some other extensions
-RUN apk add icu-dev \
-    && mkdir -p /usr/src/php/ext/redis \
-    && curl -fSL "https://github.com/phpredis/phpredis/archive/${PHPREDIS_VERSION}.tar.gz" -o phpredis.tar.gz \
-    && tar -xzf phpredis.tar.gz --strip-components=1 --directory /usr/src/php/ext/redis \
-    && rm phpredis.tar.gz \
-    && echo 'redis' >> /usr/src/php-available-exts \
-    && docker-php-ext-install redis intl calendar
+RUN apk add --update --no-cache \
+    curl tar gzip \
+    # PHPs
+    php8 php8-fpm \
+    # Mediawiki requirements
+    php8-session php8-openssl php8-json php8-mbstring php8-fileinfo php8-intl php8-calendar php8-xml \
+    # Mediawiki configuration requirements.
+    php8-curl php8-mysqli php8-mysqlnd php8-gd php8-dom php8-ctype php8-iconv php8-zlib php8-xmlreader \
+    # Mediawiki caching and extensions requirements
+    php8-simplexml php8-tokenizer php8-xmlwriter php8-opcache php8-phar php8-pecl-apcu php8-pecl-redis \
+    # Composer
+    composer
 
 ARG BUILD_VER=0
 
