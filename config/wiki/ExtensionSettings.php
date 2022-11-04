@@ -350,10 +350,10 @@ wfLoadExtension( 'SecureLinkFixer' );
 
 # VisualEditor and Parsoid
 wfLoadExtension( 'VisualEditor' );
-wfLoadExtension( 'Parsoid', $IP . '/vendor/wikimedia/parsoid/extension.json' );
-# VisualEditor communicating to http server inside of container. so we need to set this.
-$wgVisualEditorParsoidAutoConfig = false;
-$wgVirtualRestConfig['modules']['parsoid']['url'] = 'http://' . 'http:8080' . $wgScriptPath . '/rest.php';
+// wfLoadExtension( 'Parsoid', $IP . '/vendor/wikimedia/parsoid/extension.json' );
+// # VisualEditor communicating to http server inside of container. so we need to set this.
+// $wgVisualEditorParsoidAutoConfig = false;
+// $wgVirtualRestConfig['modules']['parsoid']['url'] = 'http://' . 'http:8080' . $wgScriptPath . '/rest.php';
 
 # AWS
 wfLoadExtension( 'AWS' );
