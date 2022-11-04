@@ -149,7 +149,7 @@ $wgPopupsOptInDefaultState = '0';
 //$wgDefaultUserOptions['echo-email-frequency'] = -1;
 
 # Thanks
-wfLoadExtension( 'Thanks' );
+//wfLoadExtension( 'Thanks' );
 
 # Discord
 wfLoadExtension( 'Discord' );

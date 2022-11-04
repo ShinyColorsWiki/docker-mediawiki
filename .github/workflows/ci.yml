@@ -19,7 +19,7 @@ jobs:
 
     - name: Copy configuration and move to dev for docker build
       run: |
-        cp -r config/wiki/* dev/wiki
+        cp -r config/* dev/
         cp dev/aws.example.env dev/aws.env
         cp dev/secret.example.php dev/secret.php
         sed -i -r 's/mediawiki:latest/mediawiki:ci-test/g' docker-compose.yml
