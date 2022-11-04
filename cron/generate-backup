@@ -12,7 +12,7 @@ DB_HOSTNAME="$(php -r 'require "/setting/secret.php"; echo $wgDBserver;')"
 DB_USERNAME="$(php -r 'require "/setting/secret.php"; echo $wgDBuser;')"
 DB_PASSWORD="$(php -r 'require "/setting/secret.php"; echo $wgDBpassword;')"
 
-namebase=shinywiki-dump-
+namebase=shinywiki-backup-
 datestamp=`date +'%Y-%m-%d'`
 
 tempdir="/tmp/wiki-backup-sql-$datestamp"
@@ -20,12 +20,12 @@ tempdir="/tmp/wiki-backup-sql-$datestamp"
 mkdir $tempdir
 cd $tempdir
 
-namebase=shinywiki-dump-
+namebase=shinywiki-backup-
 datestamp=`date +'%Y-%m-%d'`
 
 if test "$1" = ""
 then
-name=$namebase$datestamp.tar.zst
+name=$namebase$datestamp
 else
 name=$1
 fi

@@ -144,9 +144,9 @@ $wgPopupsExperiment = true;
 $wgPopupsOptInDefaultState = '0';
 
 # Echo for Notifications.
-wfLoadExtension( 'Echo' );
-$wgEchoEnableEmailBatch = false;
-$wgDefaultUserOptions['echo-email-frequency'] = -1;
+//wfLoadExtension( 'Echo' );
+//$wgEchoEnableEmailBatch = false;
+//$wgDefaultUserOptions['echo-email-frequency'] = -1;
 
 # Thanks
 wfLoadExtension( 'Thanks' );
@@ -301,7 +301,7 @@ $wgScribuntoDefaultEngine = 'luastandalone';
 $wgScribuntoEngineConf['luastandalone']['luaPath'] = '/usr/bin/lua';
 
 # Contribution Scores
-require_once "$IP/extensions/ContributionScores/ContributionScores.php";
+wfLoadExtension( 'ContributionScores' );
 $wgContribScoreIgnoreBots = true;
 $wgContribScoreIgnoreBlockedUsers = true;
 $wgContribScoresUseRealName = false;
@@ -331,8 +331,8 @@ wfLoadExtension( 'SemanticScribunto' );
 $smwgMainCacheType = 'redis';
 $smwgQueryResultCacheType = 'redis';
 $smwgNamespace = 'https://shinycolors.wiki/id/';
-$smwgDefaultStore = 'SMWElasticStore';
-$smwgElasticsearchEndpoints = [ 'elasticsearch:9200' ];
+//$smwgDefaultStore = 'SMWElasticStore';
+//$smwgElasticsearchEndpoints = [ 'elasticsearch:9200' ];
 $smwgDVFeatures = $smwgDVFeatures | SMW_DV_PVUC;
 $wgSearchType = 'SMWSearch';
 use CirrusSearch\CirrusSearch;
@@ -353,7 +353,7 @@ wfLoadExtension( 'VisualEditor' );
 wfLoadExtension( 'Parsoid', $IP . '/vendor/wikimedia/parsoid/extension.json' );
 # VisualEditor communicating to http server inside of container. so we need to set this.
 $wgVisualEditorParsoidAutoConfig = false;
-$wgVirtualRestConfig['modules']['parsoid']['url'] = 'http://'. 'http:8080' . $wgScriptPath . '/rest.php';
+$wgVirtualRestConfig['modules']['parsoid']['url'] = 'http://' . 'http:8080' . $wgScriptPath . '/rest.php';
 $wgVirtualRestConfig['global']['domain'] = 'shinycolors.wiki';
 
 # AWS
@@ -364,3 +364,6 @@ wfLoadExtension( 'DarkMode' );
 
 # CrowdSec
 wfLoadExtension( 'CrowdSec' );
+
+# Tabs
+wfLoadExtension( 'Tabs' );

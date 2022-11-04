@@ -1,5 +1,5 @@
 {
-    "MWREL": "REL1_35",
+    "MWREL": "REL1_39",
     "Extensions": {
         "WMF": [
             "AbuseFilter",
@@ -59,6 +59,7 @@
             "SpamBlacklist",
             "StopForumSpam",
             "SyntaxHighlight_GeSHi",
+            "Tabs",
             "TemplateData",
             "TemplateWizard",
             "TextExtracts",
@@ -94,7 +95,7 @@
             "Discord": {
                 "type": "github",
                 "repo": "jayktaylor/mw-discord",
-                "branch": "$mwrel"
+                "branch": "master"
             },
             "EmbedVideo": {
                 "type": "github",

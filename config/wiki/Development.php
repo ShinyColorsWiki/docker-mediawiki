@@ -8,7 +8,7 @@ if ( getenv( 'MEDIAWIKI_SERVER' ) ) {
 
 if ( getenv( 'MEDIAWIKI_DEBUG' ) ) {
 	# https://www.mediawiki.org/wiki/Manual:DevelopmentSettings.php
-	require_once "includes/DevelopmentSettings.php";
+	require_once "$IP/includes/DevelopmentSettings.php";
 
 	# Overwrite existing settings
 	$wgDebugToolbar = true;

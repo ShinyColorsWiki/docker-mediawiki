@@ -3,18 +3,20 @@ version: '3'
 services:
   http:
     image: ghcr.io/shinycolorswiki/mediawiki:latest
+    build: .
     command: caddy run
     ports:
       - 8080:8080
     volumes:
       - caddy:/etc/caddycerts
-      - ./config/Caddyfile:/srv/wiki/Caddyfile:ro
+      - ./dev/Caddyfile:/srv/wiki/Caddyfile:ro
       - sitemap:/srv/wiki/sitemap:ro
       - images:/srv/wiki/w/images:ro
     environment:
       - CADDYPATH=/etc/caddycerts
   fastcgi:
     image: ghcr.io/shinycolorswiki/mediawiki:latest
+    build: .
     volumes:
       - ./dev:/setting:ro
       - sitemap:/srv/wiki/sitemap
@@ -22,6 +24,7 @@ services:
     environment:
       - MEDIAWIKI_SERVER=http://127.0.0.1:8080
       - MEDIAWIKI_DEBUG=1
+      - MEDIAWIKI_SKIP_INSTALL=1
     depends_on:
       - mariadb
       - redis
@@ -40,9 +43,12 @@ services:
   redis:
     image: redis:7-alpine
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.23
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2
+    environment:
+      - discovery.type=single-node
     expose:
       - 9200
+    
 
 volumes:
   caddy:
