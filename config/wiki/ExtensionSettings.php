@@ -354,7 +354,6 @@ wfLoadExtension( 'Parsoid', $IP . '/vendor/wikimedia/parsoid/extension.json' );
 # VisualEditor communicating to http server inside of container. so we need to set this.
 $wgVisualEditorParsoidAutoConfig = false;
 $wgVirtualRestConfig['modules']['parsoid']['url'] = 'http://' . 'http:8080' . $wgScriptPath . '/rest.php';
-$wgVirtualRestConfig['global']['domain'] = 'shinycolors.wiki';
 
 # AWS
 wfLoadExtension( 'AWS' );
