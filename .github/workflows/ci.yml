@@ -35,6 +35,7 @@ jobs:
         platforms: linux/amd64
         cache-from: ghcr.io/shinycolorswiki/mediawiki:latest
         cache-to: mode=max,type=local,dest=/tmp/.buildx-cache
+        no-cache: ${{ contains(github.event.head_commit.message, '[no cache]') }}
         build-args: BUILD_VER=${{ steps.version.outputs.version }}
         load: true
         push: false
@@ -97,6 +98,7 @@ jobs:
         cache-to: mode=max,type=inline
         build-args: BUILD_VER=${{ steps.version.outputs.version }}
         load: false
+        no-cache: ${{ contains(github.event.head_commit.message, '[no cache]') }}
         push: ${{ github.repository_owner == 'ShinyColorsWiki' && github.ref == 'refs/heads/master' }}
         tags: |
           ghcr.io/shinycolorswiki/mediawiki:latest
