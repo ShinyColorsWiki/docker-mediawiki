@@ -57,4 +57,8 @@ sed -i -e "s/;\?clear_env = \(no\|yes\)/clear_env = no/g" /etc/php8/php-fpm.d/ww
 sed -i -e "s/;\?error_log = \(.\+\)/error_log = \/dev\/stderr\n/g" /etc/php8/php-fpm.conf
 
 # Run rebuild index and php-fpm
-rebuild_index & /usr/sbin/php-fpm8 -F
+if [ -z "${MEDIAWIKI_SKIP_REBUILD_INDEX:-}" ]; then
+    /usr/sbin/php-fpm8 -F
+else
+    rebuild_index & /usr/sbin/php-fpm8 -F
+fi
