@@ -58,7 +58,7 @@ sed -i -e "s/;\?error_log = \(.\+\)/error_log = \/dev\/stderr\n/g" /etc/php8/php
 
 # Run rebuild index and php-fpm
 if [ -z "${MEDIAWIKI_SKIP_REBUILD_INDEX:-}" ]; then
-    /usr/sbin/php-fpm8 -F
-else
     rebuild_index & /usr/sbin/php-fpm8 -F
+else
+    /usr/sbin/php-fpm8 -F
 fi
