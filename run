@@ -49,9 +49,11 @@ fi
 crond -b
 
 # Override listen
-sed -i -e "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/g" /etc/php8/php-fpm.d/www.conf && \
+sed -i -e "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/g" /etc/php8/php-fpm.d/www.conf
 # Override clear_env for pass docker variables
 sed -i -e "s/;\?clear_env = \(no\|yes\)/clear_env = no/g" /etc/php8/php-fpm.d/www.conf
+# Override error log for output to docker (stderr)
+sed -i -e "s/;\?error_log = \(.\+\)/error_log = \/dev\/stderr\n/g" /etc/php8/php-fpm.conf
 
 # Run rebuild index and php-fpm
 rebuild_index & /usr/sbin/php-fpm8 -F
