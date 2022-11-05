@@ -32,13 +32,14 @@ ln -sf /setting/wiki/LocalSettings.php /srv/wiki/w/LocalSettings.php
 ln -sf /setting/aws.env /etc/aws.env
 
 rebuild_index () {
-    # SMW Elastic Index
-    sudo -u caddy -g www-data php /srv/wiki/w/extensions/SemanticMediaWiki/maintenance/rebuildElasticIndex.php & \
     # Search Elastic Index
     sudo -u caddy -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php --startOver && \
     sudo -u caddy -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip & \
     sudo -u caddy -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse & \
-    sudo -u caddy -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php
+    sudo -u caddy -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php 
+
+    # SMW Elastic Index
+    sudo -u caddy -g www-data php /srv/wiki/w/extensions/SemanticMediaWiki/maintenance/rebuildElasticIndex.php
 }
 
 if [ -z "${MEDIAWIKI_SKIP_UPDATE:-}" ]; then
