@@ -169,7 +169,7 @@ $wgUseCdn = true;
 #$wgCdnServers = array();
 #$wgCdnServers[] = "127.0.0.1:6081";
 $wgCdnServersNoPurge = array( # docker ips
-        "172.0.0.0/24"
+        "172.16.0.0/12"
 );
 
 # Favicon & Touch Icon
