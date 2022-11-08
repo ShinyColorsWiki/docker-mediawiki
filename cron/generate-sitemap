@@ -2,7 +2,7 @@
 
 cd /srv/wiki
 
-sudo -u caddy -g www-data \
+sudo -u nginx -g www-data \
     php w/maintenance/generateSitemap.php \
     --memory-limit=50M \
     --fspath=sitemap \

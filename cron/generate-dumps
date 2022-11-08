@@ -5,7 +5,7 @@
 # --------
 
 datestamp=`date +'%Y-%m-%d'`
-php="sudo -u caddy -g www-data php"
+php="sudo -u nginx -g www-data php"
 wikiname="shinywiki"
 tempdir="/tmp/wiki-dumps-$datestamp"
 workingdir="/srv/wiki"
