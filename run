@@ -56,7 +56,7 @@ sed -i -e "s/;\?clear_env = \(no\|yes\)/clear_env = no/g" /etc/php8/php-fpm.d/ww
 # Override error log for output to docker (stderr)
 sed -i -e "s/;\?error_log = \(.\+\)/error_log = \/dev\/stderr\n/g" /etc/php8/php-fpm.conf
 # Override owner/group for proper permission
-sed -i -e "s/;\?owner = nobody/owner = nginx/g" /etc/php8/php-fpm.d/www.conf
+sed -i -e "s/;\?user = nobody/user = nginx/g" /etc/php8/php-fpm.d/www.conf
 sed -i -e "s/;\?group = nobody/group = www-data/g" /etc/php8/php-fpm.d/www.conf
 sed -i -e "s/;\?listen\.owner = nobody/listen\.owner = nginx/g" /etc/php8/php-fpm.d/www.conf
 sed -i -e "s/;\?listen\.group = nobody/listen\.group = www-data/g" /etc/php8/php-fpm.d/www.conf
