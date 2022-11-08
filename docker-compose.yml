@@ -11,6 +11,8 @@ services:
       - ./dev/nginx.conf:/etc/nginx/http.d/default.conf:ro
       - sitemap:/srv/wiki/sitemap:ro
       - images:/srv/wiki/w/images:ro
+    depends_on:
+      - fastcgi
   fastcgi:
     image: ghcr.io/shinycolorswiki/mediawiki:latest
     build: .
