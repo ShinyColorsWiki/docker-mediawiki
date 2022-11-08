@@ -49,6 +49,9 @@ fi
 # Start cron daemon
 crond -b
 
+# Temp fix for CDB.
+chmod 777 /srv/wiki/w/cache
+
 # Override listen
 sed -i -e "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/g" /etc/php8/php-fpm.d/www.conf
 # Override clear_env for pass docker variables
