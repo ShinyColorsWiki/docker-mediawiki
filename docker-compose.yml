@@ -4,16 +4,13 @@ services:
   http:
     image: ghcr.io/shinycolorswiki/mediawiki:latest
     build: .
-    command: caddy run
+    command: nginx -g 'daemon off;'
     ports:
       - 8080:8080
     volumes:
-      - caddy:/etc/caddycerts
-      - ./dev/Caddyfile:/srv/wiki/Caddyfile:ro
+      - ./dev/nginx.conf:/etc/nginx/http.d/default.conf:ro
       - sitemap:/srv/wiki/sitemap:ro
       - images:/srv/wiki/w/images:ro
-    environment:
-      - CADDYPATH=/etc/caddycerts
   fastcgi:
     image: ghcr.io/shinycolorswiki/mediawiki:latest
     build: .
@@ -29,9 +26,9 @@ services:
       - redis
       - elasticsearch
   mariadb:
-    image: mariadb:10
+    image: lscr.io/linuxserver/mariadb:latest
     volumes:
-      - db:/var/lib/mysql
+      - db:/config
     environment:
       - MYSQL_ROOT_PASSWORD=therootpassword
       - MYSQL_DATABASE=shinywiki
@@ -50,7 +47,6 @@ services:
     
 
 volumes:
-  caddy:
   sitemap:
   images:
   db:

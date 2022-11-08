@@ -33,24 +33,21 @@ ln -sf /setting/aws.env /etc/aws.env
 
 rebuild_index () {
     # Search Elastic Index
-    sudo -u caddy -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php --startOver && \
-    sudo -u caddy -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip & \
-    sudo -u caddy -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse & \
-    sudo -u caddy -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php 
+    sudo -u nginx -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php --startOver && \
+    sudo -u nginx -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip & \
+    sudo -u nginx -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse & \
+    sudo -u nginx -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php 
 
     # SMW Elastic Index
-    sudo -u caddy -g www-data php /srv/wiki/w/extensions/SemanticMediaWiki/maintenance/rebuildElasticIndex.php
+    sudo -u nginx -g www-data php /srv/wiki/w/extensions/SemanticMediaWiki/maintenance/rebuildElasticIndex.php
 }
 
 if [ -z "${MEDIAWIKI_SKIP_UPDATE:-}" ]; then
-    sudo -u caddy -g www-data php /srv/wiki/w/maintenance/update.php --quick 
+    sudo -u nginx -g www-data php /srv/wiki/w/maintenance/update.php --quick 
 fi
 
 # Start cron daemon
 crond -b
-
-# temp fix for localization cache
-chmod 777 /srv/wiki/w/cache
 
 # Override listen
 sed -i -e "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/g" /etc/php8/php-fpm.d/www.conf
@@ -58,6 +55,9 @@ sed -i -e "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/g" /etc/php8/php-fpm.
 sed -i -e "s/;\?clear_env = \(no\|yes\)/clear_env = no/g" /etc/php8/php-fpm.d/www.conf
 # Override error log for output to docker (stderr)
 sed -i -e "s/;\?error_log = \(.\+\)/error_log = \/dev\/stderr\n/g" /etc/php8/php-fpm.conf
+# Override owner/group for proper permission
+sed -i -e "s/;\?listen\.owner = nobody/listen\.owner = nginx/g" /etc/php8/php-fpm.d/www.conf
+sed -i -e "s/;\?listen\.group = nobody/listen\.group = www-data/g" /etc/php8/php-fpm.d/www.conf
 
 # Run rebuild index and php-fpm
 if [ -z "${MEDIAWIKI_SKIP_REBUILD_INDEX:-}" ]; then

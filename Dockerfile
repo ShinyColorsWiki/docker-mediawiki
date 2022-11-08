@@ -40,14 +40,13 @@ WORKDIR /tmp/mediawiki
 RUN COMPOSER_HOME=/tmp/composer composer update --no-dev
 
 # NO I WON'T USE PHP IMAGE SINCE IT'S TOO BIG
-# v3.16 doesn't have php7. Wait for mediawiki supports php 8.
 FROM alpine:3.16
 
 RUN apk add --update --no-cache \
     # Basic utils
     curl imagemagick diffutils ffmpeg sudo lua tar bzip2 zstd bash mariadb-client \
     # Web server
-    caddy \ 
+    nginx \ 
     # See https://github.com/krallin/tini.
     tini \
     # PHPs
@@ -60,19 +59,19 @@ RUN apk add --update --no-cache \
     php8-simplexml php8-tokenizer php8-xmlwriter php8-opcache php8-phar php8-pecl-apcu php8-pecl-redis 
 
 # Make folder and copy mediawiki into here.
-RUN mkdir /srv/wiki && chown caddy:www-data /srv/wiki && \
-    sudo -u caddy -g www-data mkdir -p /srv/wiki/w/ /srv/wiki/sitemap
-COPY --from=builder --chown=caddy:www-data /tmp/mediawiki /srv/wiki/w/
+RUN mkdir /srv/wiki && chown nginx:www-data /srv/wiki && \
+    sudo -u nginx -g www-data mkdir -p /srv/wiki/w/ /srv/wiki/sitemap
+COPY --from=builder --chown=nginx:www-data /tmp/mediawiki /srv/wiki/w/
 
 # Set Permissions here.
 # Widgets need permission to write compiled template.
 RUN chmod o+w /srv/wiki/w/extensions/Widgets/compiled_templates
 
 # Copy misc resources like robots.txt and favicon.ico
-COPY --chown=caddy:www-data resources /srv/wiki/
+COPY --chown=nginx:www-data resources /srv/wiki/
 
 # Copy settings to `/setting/wiki`. but still need `secret.php`
-COPY --chown=caddy:www-data config/wiki/LocalSettings.php config/wiki/ExtensionSettings.php /setting/wiki/
+COPY --chown=nginx:www-data config/wiki/LocalSettings.php config/wiki/ExtensionSettings.php /setting/wiki/
 VOLUME /setting
 
 # Install S3 uploader and temporal environment.
@@ -89,11 +88,7 @@ COPY run \
      cron/crontab_config \
      /usr/local/bin/
 RUN crontab /usr/local/bin/crontab_config && rm /usr/local/bin/crontab_config \
-    && bash -c 'chmod +x /usr/local/bin/{run,generate-backup,generate-dumps,generate-sitemap,run-jobs}' \
-    # Caddy directories
-    mkdir -p \
-      /config/caddy \
-      /data/caddy
+    && bash -c 'chmod +x /usr/local/bin/{run,generate-backup,generate-dumps,generate-sitemap,run-jobs}'
 
 ENV XDG_CONFIG_HOME /config
 ENV XDG_DATA_HOME /data

@@ -3,3 +3,4 @@
 /wiki/**/*
 !/wiki/.gitkeep
 /Caddyfile
+/nginx.conf
