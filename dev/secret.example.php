@@ -51,8 +51,3 @@ $wgSpamBlacklistFiles = array(
 
 $wgEnableDnsBlacklist = false;
 $wgDnsBlacklistUrls = array( '' );
-// $wgDnsBlacklistUrls['create']        = true;
-// $wgDnsBlacklistUrls['createtalk']    = true;
-// $wgDnsBlacklistUrls['addurl']        = true;
-// $wgDnsBlacklistUrls['createaccount'] = true;
-// $wgDnsBlacklistUrls['edit']          = true;

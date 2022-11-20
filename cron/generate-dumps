@@ -24,22 +24,18 @@ rm /etc/aws.env.sh
 
 # --- Generate ---
 
-$php $workingdir/w/maintenance/dumpBackup.php --current > $tempdir/$wikiname-current-$datestamp.xml
-bzip2 -z $tempdir/$wikiname-current-$datestamp.xml
+$php $workingdir/w/maintenance/dumpBackup.php --current --output=bzip2:$tempdir/$wikiname-current-$datestamp.xml.bz2
 if [ $day == "01" ] || [ $day == "15" ]
 then
-    $php $workingdir/w/maintenance/dumpBackup.php --full >  $tempdir/$wikiname-full-$datestamp.xml
-    bzip2 -z $tempdir//$wikiname-full-$datestamp.xml
+    $php $workingdir/w/maintenance/dumpBackup.php --full --output=bzip2:$tempdir/$wikiname-full-$datestamp.xml.bz2
 fi
 
 # --- Upload ---
 
-cd $tempdir
-
-/usr/local/bin/s3-uploader -b $AWS_BUCKET_DUMP -f ./$wikiname-current-$datestamp.xml.bz2
+/usr/local/bin/s3-uploader -b $AWS_BUCKET_DUMP -f $tempdir/$wikiname-current-$datestamp.xml.bz2
 if [ $day == "01" ] || [ $day == "15" ]
 then
-    /usr/local/bin/s3-uploader -z -b $AWS_BUCKET_DUMP -f ./$wikiname-full-$datestamp.xml.bz2
+    /usr/local/bin/s3-uploader -z -b $AWS_BUCKET_DUMP -f $tempdir/$wikiname-full-$datestamp.xml.bz2
 fi
 
 # --- Cleanup ---
