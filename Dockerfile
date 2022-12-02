@@ -1,12 +1,8 @@
-ARG MEDIAWIKI_VERSION=1.39.0-rc.1
-
-# PHP Dependency
-ARG PHPREDIS_VERSION=5.3.7
+ARG MEDIAWIKI_VERSION=1.39.0
 
 # Download mediawiki
 FROM alpine:3.16 as builder
 ARG MEDIAWIKI_VERSION
-ARG PHPREDIS_VERSION
 
 RUN mkdir -p /tmp/composer /tmp/mediawiki
 COPY --from=ghcr.io/shinycolorswiki/mediawiki-extension-downloader:latest /app /tmp/mediawiki-extension-downloader
