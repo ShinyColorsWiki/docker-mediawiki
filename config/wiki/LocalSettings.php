@@ -235,6 +235,9 @@ $wgInternalServer = 'http://http:8080';
 # Load Extension settings config.
 require_once '/setting/wiki/ExtensionSettings.php';
 
+# Load Secret settings config.
+require_once '/setting/secret.php';
+
 # Load Development settings
 require_once '/setting/wiki/Development.php';
 
