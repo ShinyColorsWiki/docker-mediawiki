@@ -54,6 +54,11 @@ jobs:
       if: success() || failure()
       run: curl -sLf "http://127.0.0.1:8080/w/api.php?action=visualeditor&format=json&page=arbitrary_page&paction=parse&wikitext=arbitrary"
 
+    - name: Test Special:Version (timeout 1m)
+      timeout-minutes: 1
+      if: success() || failure()
+      run: curl -sLf "http://127.0.0.1:8080/wiki/Special:Version"
+
     - name: Test Special:MathStatus (timeout 1m)
       timeout-minutes: 1
       if: success() || failure()
@@ -63,6 +68,7 @@ jobs:
       timeout-minutes: 1
       if: success() || failure()
       run: curl -sLf "http://127.0.0.1:8080/id/?curid=1"
+
 
     - name: Docker compose ps
       if: success() || failure()
@@ -108,6 +114,7 @@ jobs:
     name: Trigger deploy to upstream
     runs-on: ubuntu-latest
     needs: docker
+    if: ${{ github.repository_owner == 'ShinyColorsWiki' && github.ref == 'refs/heads/master' }}
     steps:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2

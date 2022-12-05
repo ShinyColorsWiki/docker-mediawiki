@@ -297,7 +297,7 @@ wfLoadExtension( 'CiteThisPage' );
 
 # Lua Script Support
 wfLoadExtension( 'Scribunto' );
-$wgScribuntoDefaultEngine = 'luastandalone';
+$wgScribuntoDefaultEngine = 'luasandbox';
 $wgScribuntoEngineConf['luastandalone']['luaPath'] = '/usr/bin/lua';
 
 # Contribution Scores

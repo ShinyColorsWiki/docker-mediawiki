@@ -38,7 +38,9 @@ RUN COMPOSER_HOME=/tmp/composer composer update --no-dev
 # NO I WON'T USE PHP IMAGE SINCE IT'S TOO BIG
 FROM alpine:3.16
 
-RUN apk add --update --no-cache \
+# LuaSandbox package is added on testing branch. we need to add for luasandbox.
+RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
+    apk add --update --no-cache \
     # Basic utils
     curl imagemagick diffutils ffmpeg sudo lua tar bzip2 zstd bash mariadb-client \
     # Web server
@@ -52,7 +54,7 @@ RUN apk add --update --no-cache \
     # Mediawiki configuration requirements.
     php8-curl php8-mysqli php8-mysqlnd php8-gd php8-dom php8-ctype php8-iconv php8-zlib php8-xmlreader \
     # Mediawiki caching and extensions requirements
-    php8-simplexml php8-tokenizer php8-xmlwriter php8-opcache php8-phar php8-pecl-apcu php8-pecl-redis 
+    php8-simplexml php8-tokenizer php8-xmlwriter php8-opcache php8-phar php8-pecl-apcu php8-pecl-redis php8-pecl-luasandbox@testing
 
 # Make folder and copy mediawiki into here.
 RUN mkdir /srv/wiki && chown nginx:www-data /srv/wiki && \
