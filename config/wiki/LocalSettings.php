@@ -85,15 +85,15 @@ $wgObjectCaches['redis'] = array(
         'loggroup'   => 'redis',
         'persistent' => true,
 );
-$wgMainCacheType = CACHE_ACCEL;
-$wgMemCachedServers = [];
+$wgMainCacheType = CACHE_MEMCACHED;
+$wgMemCachedServers = [ 'memcached:11211' ];
 #$wgSessionCacheType = CACHE_DB; # For save sessions even restart.
 $wgSessionCacheType = 'redis';
 
-$wgMessageCacheType = CACHE_NONE;
+$wgMessageCacheType = CACHE_MEMCACHED;
 $wgUseLocalMessageCache = true;
 $wgParserCacheType = CACHE_DB; #'redis';
-$wgLanguageConverterCacheType = CACHE_DB;
+$wgLanguageConverterCacheType = CACHE_ACCEL;
 
 $wgJobTypeConf['default'] = [
         'class'          => 'JobQueueRedis',

@@ -40,6 +40,12 @@ services:
       - 3306
   redis:
     image: redis:7-alpine
+    expose:
+      - 6379
+  memcached:
+    image: memcached:alpine
+    expose:
+      - 11211
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2
     environment:

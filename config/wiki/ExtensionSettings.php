@@ -143,11 +143,13 @@ $wgPopupsExperiment = true;
 #$wgPopupsHideOptInOnPreferencesPage = true;
 $wgPopupsOptInDefaultState = '0';
 
+# FIXME: PWO T322143
 # Echo for Notifications.
 //wfLoadExtension( 'Echo' );
 //$wgEchoEnableEmailBatch = false;
 //$wgDefaultUserOptions['echo-email-frequency'] = -1;
 
+# FIXME: When upward is resolved
 # Thanks
 //wfLoadExtension( 'Thanks' );
 
