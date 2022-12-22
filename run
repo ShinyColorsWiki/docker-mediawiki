@@ -55,23 +55,23 @@ crond -b
 ###
 
 # Override listen
-sed -i -e "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/g" /etc/php8/php-fpm.d/www.conf
+sed -i -e "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/g" /etc/php81/php-fpm.d/www.conf
 
 # Override clear_env for pass docker variables
-sed -i -e "s/;\?clear_env = \(no\|yes\)/clear_env = no/g" /etc/php8/php-fpm.d/www.conf
+sed -i -e "s/;\?clear_env = \(no\|yes\)/clear_env = no/g" /etc/php81/php-fpm.d/www.conf
 
 # Override error log for output to docker (stderr)
-sed -i -e "s/;\?error_log = \(.\+\)/error_log = \/dev\/stderr\n/g" /etc/php8/php-fpm.conf
+sed -i -e "s/;\?error_log = \(.\+\)/error_log = \/dev\/stderr\n/g" /etc/php81/php-fpm.conf
 
 # Override owner/group for proper permission
-sed -i -e "s/;\?user = nobody/user = nginx/g" /etc/php8/php-fpm.d/www.conf
-sed -i -e "s/;\?group = nobody/group = www-data/g" /etc/php8/php-fpm.d/www.conf
-sed -i -e "s/;\?listen\.owner = nobody/listen\.owner = nginx/g" /etc/php8/php-fpm.d/www.conf
-sed -i -e "s/;\?listen\.group = nobody/listen\.group = www-data/g" /etc/php8/php-fpm.d/www.conf
+sed -i -e "s/;\?user = nobody/user = nginx/g" /etc/php81/php-fpm.d/www.conf
+sed -i -e "s/;\?group = nobody/group = www-data/g" /etc/php81/php-fpm.d/www.conf
+sed -i -e "s/;\?listen\.owner = nobody/listen\.owner = nginx/g" /etc/php81/php-fpm.d/www.conf
+sed -i -e "s/;\?listen\.group = nobody/listen\.group = www-data/g" /etc/php81/php-fpm.d/www.conf
 
 # Override pm value for performance
-sed -i -e "s/;\?pm = dynamic/pm = static/g" /etc/php8/php-fpm.d/www.conf
-sed -i -e "s/;\?pm\.max_children = 5/pm\.max_children = 8/g" /etc/php8/php-fpm.d/www.conf
+sed -i -e "s/;\?pm = dynamic/pm = static/g" /etc/php81/php-fpm.d/www.conf
+sed -i -e "s/;\?pm\.max_children = 5/pm\.max_children = 8/g" /etc/php81/php-fpm.d/www.conf
 
 # Run rebuild index and php-fpm
 if [ -z "${MEDIAWIKI_SKIP_REBUILD_INDEX:-}" ]; then
