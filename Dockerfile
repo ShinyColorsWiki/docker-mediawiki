@@ -1,7 +1,7 @@
 ARG MEDIAWIKI_VERSION=1.39.1
 
 # Download mediawiki
-FROM alpine:3.16 as builder
+FROM alpine:3.17 as builder
 ARG MEDIAWIKI_VERSION
 
 RUN mkdir -p /tmp/composer /tmp/mediawiki
@@ -12,13 +12,13 @@ COPY config/extension-list.json /tmp/mediawiki-extension-downloader.json
 RUN apk add --update --no-cache \
     curl tar gzip \
     # PHPs
-    php8 php8-fpm \
+    php81 php81-fpm \
     # Mediawiki requirements
-    php8-session php8-openssl php8-json php8-mbstring php8-fileinfo php8-intl php8-calendar php8-xml \
+    php81-session php81-openssl php81-json php81-mbstring php81-fileinfo php81-intl php81-calendar php81-xml \
     # Mediawiki configuration requirements.
-    php8-curl php8-mysqli php8-mysqlnd php8-gd php8-dom php8-ctype php8-iconv php8-zlib php8-xmlreader \
+    php81-curl php81-mysqli php81-mysqlnd php81-gd php81-dom php81-ctype php81-iconv php81-zlib php81-xmlreader \
     # Mediawiki caching and extensions requirements
-    php8-simplexml php8-tokenizer php8-xmlwriter php8-opcache php8-phar php8-pecl-apcu php8-pecl-redis \
+    php81-simplexml php81-tokenizer php81-xmlwriter php81-opcache php81-phar php81-pecl-apcu php81-pecl-redis \
     # Composer
     composer
 
@@ -36,7 +36,7 @@ WORKDIR /tmp/mediawiki
 RUN COMPOSER_HOME=/tmp/composer composer update --no-dev
 
 # NO I WON'T USE PHP IMAGE SINCE IT'S TOO BIG
-FROM alpine:3.16
+FROM alpine:3.17
 
 # LuaSandbox package is added on testing branch. we need to add for luasandbox.
 RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
@@ -48,13 +48,13 @@ RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/a
     # See https://github.com/krallin/tini.
     tini \
     # PHPs
-    php8 php8-fpm \
+    php81 php81-fpm \
     # Mediawiki requirements
-    php8-session php8-openssl php8-json php8-mbstring php8-fileinfo php8-intl php8-calendar php8-xml \
+    php81-session php81-openssl php81-json php81-mbstring php81-fileinfo php81-intl php81-calendar php81-xml \
     # Mediawiki configuration requirements.
-    php8-curl php8-mysqli php8-mysqlnd php8-gd php8-dom php8-ctype php8-iconv php8-zlib php8-xmlreader \
+    php81-curl php81-mysqli php81-mysqlnd php81-gd php81-dom php81-ctype php81-iconv php81-zlib php81-xmlreader \
     # Mediawiki caching and extensions requirements
-    php8-simplexml php8-tokenizer php8-xmlwriter php8-opcache php8-phar php8-pecl-apcu php8-pecl-redis php8-pecl-luasandbox@testing
+    php81-simplexml php81-tokenizer php81-xmlwriter php81-opcache php81-phar php81-pecl-apcu php81-pecl-redis php81-pecl-luasandbox@testing
 
 # Make folder and copy mediawiki into here.
 RUN mkdir /srv/wiki && chown nginx:www-data /srv/wiki && \
