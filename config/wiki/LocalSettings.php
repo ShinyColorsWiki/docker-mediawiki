@@ -49,12 +49,12 @@ $wgLogos = [
         'width' => 320,
         'height' => 54,
     ],
-#    'tagline' => [
-#        'src' => "https://image.shinycolors.wiki/4/47/WikiWideLogo2021.svg",
-#       #'1x' => "https://image.shinycolors.wiki/4/47/WikiWideLogo2021.svg",
-#       'width' => 200,
-#       'height' => 34,
-#    ],
+    'tagline' => [
+        'src' => "https://image.shinycolors.wiki/4/47/WikiWideLogo2021.svg",
+       #'1x' => "https://image.shinycolors.wiki/4/47/WikiWideLogo2021.svg",
+       'width' => 200,
+       'height' => 34,
+    ],
 ];
 
 ## UPO means: this is also a user preference option
@@ -228,6 +228,9 @@ $wgAutopromote = array(
         "emailconfirmed" => APCOND_EMAILCONFIRMED,
 );
 $wgImplicitGroups[] = 'emailconfirmed';
+
+# Make image to lazy load as we have many images on certain page.
+$wgNativeImageLazyLoading  = true;
 
 # Set internal server.
 $wgInternalServer = 'http://http:8080';
