@@ -16,6 +16,7 @@ echo " START "
 day=`date +'%d'`
 
 mkdir $tempdir
+chown nginx:www-data $tempdir
 
 # Get AWS Environment...
 cat /etc/aws.env | sed 's/^\(.*\)$/export \1/g' | grep -E "^export AWS" | cat - > /etc/aws.env.sh
