@@ -236,7 +236,7 @@ wfLoadExtension( 'Widgets' );
 wfLoadExtension( 'SimpleBatchUpload' );
 
 # MsUpload
-wfLoadExtension( 'MsUpload' );
+#wfLoadExtension( 'MsUpload' );
 
 # TimedMediaHandler
 wfLoadExtension( 'TimedMediaHandler' );
