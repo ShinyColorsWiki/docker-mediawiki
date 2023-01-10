@@ -49,6 +49,10 @@ jobs:
       timeout-minutes: 3
       if: success() || failure()
       run: until curl -sLf "http://127.0.0.1:8080/wiki/Main_Page"; do sleep 1; done
+    
+    - name: Test Editor
+      if: success() || failure()
+      run: curl -sLf "http://127.0.0.1:8080/w/index.php?title=Main_Page&action=edit"
 
     - name: Test VisualEditor
       if: success() || failure()
