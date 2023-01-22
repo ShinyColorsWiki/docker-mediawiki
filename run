@@ -3,6 +3,9 @@ set -euo pipefail
 
 echo "Starting wiki..."
 
+# PHP Version
+_phpv=81
+
 # Wait until other services are fully started.
 seconds=10
 echo "Wait $seconds(s) for boot other system..."
@@ -14,7 +17,7 @@ if [ -z "${MEDIAWIKI_SKIP_INSTALL:-}" ]; then
   DB_HOSTNAME="$(php -r 'require "/setting/secret.php"; echo $wgDBserver;')"
   DB_USERNAME="$(php -r 'require "/setting/secret.php"; echo $wgDBuser;')"
   DB_PASSWORD="$(php -r 'require "/setting/secret.php"; echo $wgDBpassword;')"
-  php /srv/wiki/w/maintenance/install.php \
+  php$_phpv /srv/wiki/w/maintenance/install.php \
     --scriptpath '/w' \
     --dbtype mysql \
     --dbname "${DB_NAME}" \
@@ -33,17 +36,17 @@ ln -sf /setting/aws.env /etc/aws.env
 
 rebuild_index () {
     # Search Elastic Index
-    sudo -u nginx -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php --startOver && \
-    sudo -u nginx -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip & \
-    sudo -u nginx -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse & \
-    sudo -u nginx -g www-data php /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php 
+    sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php --startOver && \
+    sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip & \
+    sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse & \
+    sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php 
 
     # SMW Elastic Index
-    sudo -u nginx -g www-data php /srv/wiki/w/extensions/SemanticMediaWiki/maintenance/rebuildElasticIndex.php
+    sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/SemanticMediaWiki/maintenance/rebuildElasticIndex.php
 }
 
 if [ -z "${MEDIAWIKI_SKIP_UPDATE:-}" ]; then
-    sudo -u nginx -g www-data php /srv/wiki/w/maintenance/update.php --quick 
+    sudo -u nginx -g www-data php$_phpv /srv/wiki/w/maintenance/update.php --quick 
 fi
 
 # Start cron daemon
@@ -55,27 +58,27 @@ crond -b
 ###
 
 # Override listen
-sed -i -e "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/g" /etc/php81/php-fpm.d/www.conf
+sed -i -e "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/g" /etc/php$_phpv/php-fpm.d/www.conf
 
 # Override clear_env for pass docker variables
-sed -i -e "s/;\?clear_env = \(no\|yes\)/clear_env = no/g" /etc/php81/php-fpm.d/www.conf
+sed -i -e "s/;\?clear_env = \(no\|yes\)/clear_env = no/g" /etc/php$_phpv/php-fpm.d/www.conf
 
 # Override error log for output to docker (stderr)
-sed -i -e "s/;\?error_log = \(.\+\)/error_log = \/dev\/stderr\n/g" /etc/php81/php-fpm.conf
+sed -i -e "s/;\?error_log = \(.\+\)/error_log = \/dev\/stderr\n/g" /etc/php$_phpv/php-fpm.conf
 
 # Override owner/group for proper permission
-sed -i -e "s/;\?user = nobody/user = nginx/g" /etc/php81/php-fpm.d/www.conf
-sed -i -e "s/;\?group = nobody/group = www-data/g" /etc/php81/php-fpm.d/www.conf
-sed -i -e "s/;\?listen\.owner = nobody/listen\.owner = nginx/g" /etc/php81/php-fpm.d/www.conf
-sed -i -e "s/;\?listen\.group = nobody/listen\.group = www-data/g" /etc/php81/php-fpm.d/www.conf
+sed -i -e "s/;\?user = nobody/user = nginx/g" /etc/php$_phpv/php-fpm.d/www.conf
+sed -i -e "s/;\?group = nobody/group = www-data/g" /etc/php$_phpv/php-fpm.d/www.conf
+sed -i -e "s/;\?listen\.owner = nobody/listen\.owner = nginx/g" /etc/php$_phpv/php-fpm.d/www.conf
+sed -i -e "s/;\?listen\.group = nobody/listen\.group = www-data/g" /etc/php$_phpv/php-fpm.d/www.conf
 
 # Override pm value for performance
-sed -i -e "s/;\?pm = dynamic/pm = static/g" /etc/php81/php-fpm.d/www.conf
-sed -i -e "s/;\?pm\.max_children = 5/pm\.max_children = 8/g" /etc/php81/php-fpm.d/www.conf
+sed -i -e "s/;\?pm = dynamic/pm = static/g" /etc/php$_phpv/php-fpm.d/www.conf
+sed -i -e "s/;\?pm\.max_children = 5/pm\.max_children = 8/g" /etc/php$_phpv/php-fpm.d/www.conf
 
 # Run rebuild index and php-fpm
 if [ -z "${MEDIAWIKI_SKIP_REBUILD_INDEX:-}" ]; then
-    rebuild_index & /usr/sbin/php-fpm81 -F
+    rebuild_index & /usr/sbin/php-fpm$_phpv -F
 else
-    /usr/sbin/php-fpm81 -F
+    /usr/sbin/php-fpm$_phpv -F
 fi
