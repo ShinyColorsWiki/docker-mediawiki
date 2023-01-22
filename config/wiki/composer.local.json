@@ -10,9 +10,9 @@
         }
     },
     "require": {
-        "mediawiki/semantic-media-wiki": "~4.1.0",
-        "mediawiki/semantic-result-formats": "~4.0.1",
-        "mediawiki/semantic-scribunto": "~2.2",
-        "mediawiki/simple-batch-upload": "~2.0"
+        "mediawiki/semantic-media-wiki": "^4.1.0",
+        "mediawiki/semantic-result-formats": "^4.0.1",
+        "mediawiki/semantic-scribunto": "^2.2",
+        "mediawiki/simple-batch-upload": "^2.0"
     }
 }
