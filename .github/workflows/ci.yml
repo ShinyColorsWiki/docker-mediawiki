@@ -98,7 +98,7 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build a multi-platform docker image and push
+    - name: Build a multi-platform docker image and push (for master)
       uses: docker/build-push-action@v3
       with:
         platforms: linux/amd64,linux/arm64
