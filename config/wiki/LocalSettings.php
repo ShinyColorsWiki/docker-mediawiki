@@ -69,9 +69,6 @@ $wgEnotifUserTalk = false; # UPO
 $wgEnotifWatchlist = false; # UPO
 $wgEmailAuthentication = true;
 
-# Load Secret settings config.
-require_once '/setting/secret.php';
-
 # MySQL specific settings
 $wgDBprefix = "";
 
@@ -163,7 +160,6 @@ $wgDefaultSkin = "vector";
 # Cookie
 $wgCookieDomain = ".shinycolors.wiki"; # this should have to.
 
-
 # Varnish Cache / CloudFlare CDN / XFF sets
 $wgUseCdn = true;
 #$wgCdnServers = array();
@@ -196,7 +192,7 @@ $wgCdnServersNoPurge = array( # list of CloudFlare ipv4 list and docker ips.
 
 # Favicon & Touch Icon
 $wgFavicon = "/favicon.ico";
-$wgAppleTouchIcon =  "https://image.shinycolors.wiki/d/dc/WikiFavLogo.png"; #$wgScriptPath . "/images/d/dc/WikiFavLogo.png";
+$wgAppleTouchIcon = "https://image.shinycolors.wiki/d/dc/WikiFavLogo.png"; # $wgScriptPath . "/images/d/dc/WikiFavLogo.png";
 
 # FileUpload
 $wgGroupPermissions['user']['upload'] = false;
@@ -228,6 +224,16 @@ $wgAutopromote = array(
         "emailconfirmed" => APCOND_EMAILCONFIRMED,
 );
 $wgImplicitGroups[] = 'emailconfirmed';
+
+# SVG Support
+$wgFileExtensions[] = 'svg';
+$wgAllowTitlesInSVG = true;
+$wgSVGConverter = 'rsvg';
+
+# Image upload by url for sysop
+$wgAllowCopyUploads = true;
+$wgCopyUploadsFromSpecialUpload = true;
+$wgGroupPermissions['sysop']['upload_by_url'] = true;
 
 # Make image to lazy load as we have many images on certain page.
 $wgNativeImageLazyLoading  = true;

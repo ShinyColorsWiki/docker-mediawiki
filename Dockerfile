@@ -42,7 +42,7 @@ FROM alpine:3.17
 RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk add --update --no-cache \
     # Basic utils
-    curl imagemagick diffutils ffmpeg sudo lua tar bzip2 zstd bash mariadb-client \
+    curl imagemagick rsvg-convert diffutils ffmpeg sudo lua tar bzip2 zstd bash mariadb-client \
     # Web server
     nginx \ 
     # See https://github.com/krallin/tini.

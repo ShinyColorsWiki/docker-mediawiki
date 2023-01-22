@@ -77,9 +77,9 @@ wfLoadExtension( 'BetaFeatures' );
 $wgGroupPermissions['user']['sendemail'] = false;
 $wgGroupPermissions['emailconfirmed']['sendemail'] = true;
 
-# Variables and Loops
-wfLoadExtension( 'Variables' );
-wfLoadExtension( 'Loops' );
+# Variables and Loops (Disabled due to deperecation of MW hooks)
+#wfLoadExtension( 'Variables' );
+#wfLoadExtension( 'Loops' );
 
 # EmbedVideo
 wfLoadExtension( 'EmbedVideo' );
@@ -273,16 +273,6 @@ $wgDefaultUserOptions['math'] = 'mathml';
 $wgMathFullRestbaseURL = 'https://wikimedia.org/api/rest_';
 $wgMathMathMLUrl = 'https://mathoid-beta.wmflabs.org';
 
-# SVG Support
-$wgFileExtensions[] = 'svg';
-$wgAllowTitlesInSVG = true;
-$wgSVGConverter = 'rsvg';
-
-# Image upload by url for sysop
-$wgAllowCopyUploads = true;
-$wgCopyUploadsFromSpecialUpload = true;
-$wgGroupPermissions['sysop']['upload_by_url'] = true;
-
 # Graph
 wfLoadExtension( 'JsonConfig' ); # dependency
 wfLoadExtension( 'Graph' );
@@ -299,7 +289,7 @@ wfLoadExtension( 'CiteThisPage' );
 # Lua Script Support
 wfLoadExtension( 'Scribunto' );
 $wgScribuntoDefaultEngine = 'luasandbox';
-$wgScribuntoEngineConf['luastandalone']['luaPath'] = '/usr/bin/lua';
+#$wgScribuntoEngineConf['luastandalone']['luaPath'] = '/usr/bin/lua';
 
 # Contribution Scores
 wfLoadExtension( 'ContributionScores' );
@@ -341,20 +331,11 @@ $smwgFallbackSearchType = function() {
         return new CirrusSearch();
 };
 
-#$smwgElasticsearchConfig['settings']['data'] = [
-#       'number_of_shards' => 3,
-#       'number_of_replicas' => 3
-#];
-
 # Secure Link Fixer
 wfLoadExtension( 'SecureLinkFixer' );
 
 # VisualEditor and Parsoid
 wfLoadExtension( 'VisualEditor' );
-// wfLoadExtension( 'Parsoid', $IP . '/vendor/wikimedia/parsoid/extension.json' );
-// # VisualEditor communicating to http server inside of container. so we need to set this.
-// $wgVisualEditorParsoidAutoConfig = false;
-// $wgVirtualRestConfig['modules']['parsoid']['url'] = 'http://' . 'http:8080' . $wgScriptPath . '/rest.php';
 
 # AWS
 wfLoadExtension( 'AWS' );
