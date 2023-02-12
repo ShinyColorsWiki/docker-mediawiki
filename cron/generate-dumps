@@ -36,7 +36,7 @@ fi
 /usr/local/bin/s3-uploader -b $AWS_BUCKET_DUMP -f $tempdir/$wikiname-current-$datestamp.xml.bz2
 if [ $day == "01" ] || [ $day == "15" ]
 then
-    /usr/local/bin/s3-uploader -z -b $AWS_BUCKET_DUMP -f $tempdir/$wikiname-full-$datestamp.xml.bz2
+    /usr/local/bin/s3-uploader -b $AWS_BUCKET_DUMP -f $tempdir/$wikiname-full-$datestamp.xml.bz2
 fi
 
 # --- Cleanup ---
