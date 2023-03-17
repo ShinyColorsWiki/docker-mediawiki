@@ -11,9 +11,18 @@ jobs:
 
     - name: Modify scripts and get version
       id: version
-      run: |
-        d=$(date -u '+%Y-%m-%dT%H-%M')
-        echo ::set-output name=version::$d-$(echo ${{ github.sha }} | cut -c1-7 )
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const date = new Date();
+          const year = date.getUTCFullYear();
+          const month = `${date.getUTCMonth()+1}`.padStart(2, '0');
+          const day = `${date.getUTCDate()}`.padStart(2, '0');
+          const hour = `${date.getUTCHours()}`.padStart(2, '0');
+          const minute = `${date.getUTCMinutes()}`.padStart(2, '0');
+          const d = `${year}-${month}-${day}T${hour}-${minute}`;
+
+          core.setOutput('version', `${d}-${context.ref.substring(0, 7)}`);
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
@@ -21,7 +30,7 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-
+    # Test image build
     - name: Copy configuration and move to dev for docker build
       run: |
         cp -r config/* dev/
@@ -44,7 +53,7 @@ jobs:
     - name: Docker compose up
       run: docker compose up -d --force-recreate
 
-
+    # Test image
     - name: Try access Main_Page (repeat 1s, timeout 3m)
       timeout-minutes: 3
       if: success() || failure()
@@ -73,7 +82,7 @@ jobs:
       if: success() || failure()
       run: curl -sLf "http://127.0.0.1:8080/id/?curid=1"
 
-
+    # Check test image logs
     - name: Docker compose ps
       if: success() || failure()
       run: docker compose ps
@@ -90,6 +99,7 @@ jobs:
       if: success() || failure()
       run: docker compose logs | grep -iv 'fastcgi-1' | grep -iv 'http-1'
 
+    # Docker Registry login
     - name: Login to GitHub Container Registry
       if: ${{ github.repository_owner == 'ShinyColorsWiki' && github.ref == 'refs/heads/master' }}
       uses: docker/login-action@v2
@@ -98,6 +108,15 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Login to Quay.io Container Registry
+      uses: docker/login-action@v2
+      if: ${{ github.repository_owner == 'ShinyColorsWiki' && github.ref == 'refs/heads/master' }}
+      with:
+        registry: quay.io
+        username: ${{ secrets.QUAY_USERNAME }}
+        password: ${{ secrets.QUAY_PASSWORD }}
+
+    # Build and push
     - name: Build a multi-platform docker image and push (for master)
       uses: docker/build-push-action@v3
       with:
@@ -114,6 +133,10 @@ jobs:
           ghcr.io/shinycolorswiki/mediawiki:latest
           ghcr.io/shinycolorswiki/mediawiki:${{ github.sha }}
           ghcr.io/shinycolorswiki/mediawiki:${{ steps.version.outputs.version }}
+          quay.io/shinycolorswiki/mediawiki:latest
+          quay.io/shinycolorswiki/mediawiki:${{ github.sha }}
+          quay.io/shinycolorswiki/mediawiki:${{ steps.version.outputs.version }}
+
   deploy:
     name: Trigger deploy to upstream
     runs-on: ubuntu-latest
