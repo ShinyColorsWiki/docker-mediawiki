@@ -341,8 +341,8 @@ wfLoadExtension( 'VisualEditor' );
 # AWS
 wfLoadExtension( 'AWS' );
 
-# DarkMode
-wfLoadExtension( 'DarkMode' );
+# DarkMode - Disabled due to site-wide css corruption
+#wfLoadExtension( 'DarkMode' );
 
 # CrowdSec
 wfLoadExtension( 'CrowdSec' );
