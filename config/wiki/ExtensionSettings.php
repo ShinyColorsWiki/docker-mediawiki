@@ -12,8 +12,8 @@ wfLoadExtension( 'TitleBlacklist' );
 # Sentry (Load Eailier for check error)
 wfLoadExtension( 'Sentry' );
 
-# Mailer
-wfLoadExtension( 'AwsSesMailer' );
+# Mailer - AWS SDK issue.
+#wfLoadExtension( 'AwsSesMailer' );
 
 # DismissableSiteNotice
 wfLoadExtension( 'DismissableSiteNotice' ); # for SiteNotice
