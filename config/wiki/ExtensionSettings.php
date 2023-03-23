@@ -348,4 +348,7 @@ wfLoadExtension( 'AWS' );
 wfLoadExtension( 'CrowdSec' );
 
 # Tabs
-wfLoadExtension( 'Tabs' );
+#wfLoadExtension( 'Tabs' );
+
+# TabberNeue
+wfLoadExtension( 'TabberNeue' );

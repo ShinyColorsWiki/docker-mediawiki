@@ -58,7 +58,6 @@
             "SpamBlacklist",
             "StopForumSpam",
             "SyntaxHighlight_GeSHi",
-            "Tabs",
             "TemplateData",
             "TemplateWizard",
             "TextExtracts",
@@ -110,6 +109,11 @@
                 "@comment": "Extension distributor has issue with Sentry Extension vendor. Download from wikimedia mirror and compose-merge.",
                 "type": "github",
                 "repo": "wikimedia/mediawiki-extensions-Sentry",
+                "branch": "master"
+            },
+            "TabberNeue": {
+                "type": "github",
+                "repo": "StarCitizenTools/mediawiki-extensions-TabberNeue",
                 "branch": "master"
             }
         },
