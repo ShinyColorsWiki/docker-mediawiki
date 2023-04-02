@@ -82,11 +82,12 @@ COPY run \
      cron/generate-dumps \
      cron/generate-sitemap \
      cron/run-jobs \
+     cron/update-sfs \
      # Well just reduce stage...
      cron/crontab_config \
      /usr/local/bin/
 RUN crontab /usr/local/bin/crontab_config && rm /usr/local/bin/crontab_config \
-    && bash -c 'chmod +x /usr/local/bin/{run,generate-backup,generate-dumps,generate-sitemap,run-jobs}'
+    && bash -c 'chmod +x /usr/local/bin/{run,generate-backup,generate-dumps,generate-sitemap,run-jobs,update-sfs}'
 
 ENV XDG_CONFIG_HOME /config
 ENV XDG_DATA_HOME /data

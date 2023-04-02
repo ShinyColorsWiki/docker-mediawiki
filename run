@@ -49,6 +49,9 @@ if [ -z "${MEDIAWIKI_SKIP_UPDATE:-}" ]; then
     sudo -u nginx -g www-data php$_phpv /srv/wiki/w/maintenance/update.php --quick 
 fi
 
+# Update SFS
+/bin/bash /usr/local/bin/update-sfs || :
+
 # Start cron daemon
 crond -b
 

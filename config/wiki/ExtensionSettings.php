@@ -106,7 +106,7 @@ wfLoadExtension( 'PageImages' );
 # StopForumSpam to prevent spam
 wfLoadExtension( 'StopForumSpam' );
 $wgGroupPermissions['bot']['sfsblock-bypass'] = true;
-
+$wgSFSIPListLocation = "/srv/wiki/listed_ip_30_ipv46_all.txt"
 
 # LookUpUser for Spammers
 wfLoadExtension( 'LookupUser' );
