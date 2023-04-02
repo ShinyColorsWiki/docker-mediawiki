@@ -1,19 +1,4 @@
-#!/bin/bash
-
-tempdir="/tmp/sfs-cron"
-mkdir $tempdir
-cd $tempdir
-
-wget 'https://www.stopforumspam.com/downloads/listed_ip_30_ipv46_all.zip' -O listed_ip_30_ipv46_all.zip
-unzip listed_ip_30_ipv46_all.zip
-
-mv listed_ip_30_ipv46_all.txt /srv/wiki/listed_ip_30_ipv46_all.txt
-chown nginx:www-data /srv/wiki/listed_ip_30_ipv46_all.txt
-
-rm listed_ip_30_ipv46_all.zip
+#!/bin/bahsh
 
 sudo -u nginx -g www-data \
     php /srv/wiki/w/extensions/StopForumSpam/maintenance/updateDenyList.php
-
-cd /
-rm -rf $tempdir
