@@ -87,7 +87,7 @@ jobs:
       if: success() || failure()
       run: |
         until [[ $(docker inspect --format='{{.State.Health.Status}}' docker-mediawiki-fastcgi-1) == "healthy"  ]]; do \
-          echo $(docker inspect --format='{{.State.Health.Status}}' docker-mediawiki-fastcgi-1) && sleep 1 \
+          echo $(docker inspect --format='{{.State.Health}}' docker-mediawiki-fastcgi-1) && sleep 1 \
         ; done
 
     # Check test image logs
