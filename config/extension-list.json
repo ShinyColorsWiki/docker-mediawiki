@@ -87,7 +87,7 @@
             },
             "CrowdSec": {
                 "type": "github",
-                "repo": "ShinyColorsWiki/mediawiki-extension-crowdsec",
+                "repo": "ShinyColorsWiki/mediawiki-extensions-crowdsec",
                 "branch": "master"
             },
             "Discord": {
