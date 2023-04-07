@@ -77,10 +77,18 @@ jobs:
       if: success() || failure()
       run: curl -sL --fail-with-body "http://127.0.0.1:8080/wiki/Special:MathStatus"
 
-    - name: Test /id/?curid=1
+    - name: Test /id/?curid=1 (timeout 1m)
       timeout-minutes: 1
       if: success() || failure()
       run: curl -sL --fail-with-body "http://127.0.0.1:8080/id/?curid=1"
+
+    - name: Test container healthy (timeout 1m)
+      timeout-minutes: 1
+      if: success() || failure()
+      run: |
+        until [[ $(docker inspect --format='{{.State.Health.Status}}' docker-mediawiki-fastcgi-1) == "healthy"  ]]; do \
+          echo $(docker inspect --format='{{.State.Health}}' docker-mediawiki-fastcgi-1) && sleep 1 \
+        ; done
 
     # Check test image logs
     - name: Docker compose ps

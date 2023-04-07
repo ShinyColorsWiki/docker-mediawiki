@@ -45,12 +45,14 @@ rebuild_index () {
     # sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/SemanticMediaWiki/maintenance/rebuildElasticIndex.php
 }
 
+update_sfs () {
+    # Update SFS
+    /bin/bash /usr/local/bin/update-sfs || :
+}
+
 if [ -z "${MEDIAWIKI_SKIP_UPDATE:-}" ]; then
     sudo -u nginx -g www-data php$_phpv /srv/wiki/w/maintenance/update.php --quick 
 fi
-
-# Update SFS
-/bin/bash /usr/local/bin/update-sfs || :
 
 # Start cron daemon
 crond -b
@@ -81,7 +83,7 @@ sed -i -e "s/;\?pm\.max_children = 5/pm\.max_children = 8/g" /etc/php$_phpv/php-
 
 # Run rebuild index and php-fpm
 if [ -z "${MEDIAWIKI_SKIP_REBUILD_INDEX:-}" ]; then
-    rebuild_index & /usr/sbin/php-fpm$_phpv -F
+    update_sfs & rebuild_index & /usr/sbin/php-fpm$_phpv -F
 else
-    /usr/sbin/php-fpm$_phpv -F
+    update_sfs & /usr/sbin/php-fpm$_phpv -F
 fi
