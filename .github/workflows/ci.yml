@@ -82,6 +82,12 @@ jobs:
       if: success() || failure()
       run: curl -sL --fail-with-body "http://127.0.0.1:8080/id/?curid=1"
 
+    - name: Test container healthy
+      if: success() || failure()
+      run: |
+        echo $(docker inspect --format='{{.State.Health.Status}}' docker-mediawiki-fastcgi-1)
+        if [[ $(docker inspect --format='{{.State.Health.Status}}' docker-mediawiki-fastcgi-1) == "healthy"  ]]; then exit 0; else exit 1; fi
+
     # Check test image logs
     - name: Docker compose ps
       if: success() || failure()
