@@ -101,8 +101,8 @@ EXPOSE 80
 EXPOSE 443
 EXPOSE 9000
 
-ENV HEALTHCHECK_URL "http://http:8080"
+ENV HEALTHCHECK_URL "http://http:8080/wiki/Main_Page"
 HEALTHCHECK --interval=30s --timeout=30s --start-period=15s \
-    CMD curl -f -L --retry 20 --max-time 2 --retry-delay 1 --retry-max-time 20 "${HEALTHCHECK_URL}" || bash -c 'kill -s 15 -1 && (sleep 10; kill -s 9 -1)'
+    CMD curl -f --retry 20 --max-time 2 --retry-delay 1 --retry-max-time 20 "${HEALTHCHECK_URL}" || bash -c 'kill -s 15 -1 && (sleep 10; kill -s 9 -1)'
 
 CMD ["bash", "/usr/local/bin/run"]
