@@ -77,12 +77,12 @@ jobs:
       if: success() || failure()
       run: curl -sL --fail-with-body "http://127.0.0.1:8080/wiki/Special:MathStatus"
 
-    - name: Test /id/?curid=1
+    - name: Test /id/?curid=1 (timeout 1m)
       timeout-minutes: 1
       if: success() || failure()
       run: curl -sL --fail-with-body "http://127.0.0.1:8080/id/?curid=1"
 
-    - name: Test container healthy
+    - name: Test container healthy (timeout 1m)
       timeout-minutes: 1
       if: success() || failure()
       run: |
