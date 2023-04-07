@@ -1,4 +1,3 @@
 #!/bin/bash
 
-sudo -u nginx -g www-data \
-    php /srv/wiki/w/extensions/StopForumSpam/maintenance/updateDenyList.php
+sudo -u nginx -g www-data php /srv/wiki/w/extensions/StopForumSpam/maintenance/updateDenyList.php 
