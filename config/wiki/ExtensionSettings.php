@@ -78,9 +78,9 @@ $wgGroupPermissions['user']['sendemail'] = false;
 $wgGroupPermissions['emailconfirmed']['sendemail'] = true;
 
 # Variables and Loops (Disabled due to deperecation of MW hooks)
-wfLoadExtension( 'Variables' );
-wfLoadExtension( 'Loops' );
-$egVariablesDisabledFunctions = [ 'var_final' ];
+#wfLoadExtension( 'Variables' );
+#wfLoadExtension( 'Loops' );
+#$egVariablesDisabledFunctions = [ 'var_final' ];
 
 # EmbedVideo
 wfLoadExtension( 'EmbedVideo' );
