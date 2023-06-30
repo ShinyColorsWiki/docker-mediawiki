@@ -1,7 +1,8 @@
 ARG MEDIAWIKI_VERSION=1.39.4
+ARG ALPINE_VERSION=3.18
 
 # Download mediawiki
-FROM alpine:3.17 as builder
+FROM alpine:$ALPINE_VERSION as builder
 ARG MEDIAWIKI_VERSION
 
 RUN mkdir -p /tmp/composer /tmp/mediawiki
@@ -36,7 +37,7 @@ WORKDIR /tmp/mediawiki
 RUN COMPOSER_HOME=/tmp/composer composer update --no-dev
 
 # NO I WON'T USE PHP IMAGE SINCE IT'S TOO BIG
-FROM alpine:3.17
+FROM alpine:$ALPINE_VERSION
 
 # LuaSandbox package is added on testing branch. we need to add for luasandbox.
 RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
