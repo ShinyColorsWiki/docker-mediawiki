@@ -1,4 +1,4 @@
-ARG MEDIAWIKI_VERSION=1.39.3
+ARG MEDIAWIKI_VERSION=1.39.4
 
 # Download mediawiki
 FROM alpine:3.17 as builder
