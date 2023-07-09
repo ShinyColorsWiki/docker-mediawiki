@@ -71,6 +71,9 @@ sed -i -e "s/;\?clear_env = \(no\|yes\)/clear_env = no/g" /etc/php$_phpv/php-fpm
 # Override error log for output to docker (stderr)
 sed -i -e "s/;\?error_log = \(.\+\)/error_log = \/dev\/stderr\n/g" /etc/php$_phpv/php-fpm.conf
 
+# Override Max file upload size
+sed -i -e "s/;\?upload_max_filesize = 2M/upload_max_filesize = 96M/g" /etc/php$_phpv/php.ini
+
 # Override owner/group for proper permission
 sed -i -e "s/;\?user = nobody/user = nginx/g" /etc/php$_phpv/php-fpm.d/www.conf
 sed -i -e "s/;\?group = nobody/group = www-data/g" /etc/php$_phpv/php-fpm.d/www.conf
