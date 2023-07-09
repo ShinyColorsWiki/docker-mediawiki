@@ -72,7 +72,8 @@ sed -i -e "s/;\?clear_env = \(no\|yes\)/clear_env = no/g" /etc/php$_phpv/php-fpm
 sed -i -e "s/;\?error_log = \(.\+\)/error_log = \/dev\/stderr\n/g" /etc/php$_phpv/php-fpm.conf
 
 # Override Max file upload size
-sed -i -e "s/;\?upload_max_filesize = 2M/upload_max_filesize = 96M/g" /etc/php$_phpv/php.ini
+sed -i -e "s/;\?upload_max_filesize = 2M/upload_max_filesize = 128M/g" /etc/php$_phpv/php.ini
+sed -i -e "s/;\?post_max_size = 8M/post_max_size = 128M/g" /etc/php$_phpv/php.ini
 
 # Override owner/group for proper permission
 sed -i -e "s/;\?user = nobody/user = nginx/g" /etc/php$_phpv/php-fpm.d/www.conf
