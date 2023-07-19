@@ -3,4 +3,4 @@
 cd /srv/wiki/w
 
 mkdir /var/log/mw
-sudo -u nginx -g www-data php maintenance/runJobs.php --type="webVideoTranscode" > /var/log/mw/runJobs.log 2>&1
+sudo -u nginx -g www-data php maintenance/runJobs.php --type="webVideoTranscode" >> /var/log/mw/runJobs.log 2>&1

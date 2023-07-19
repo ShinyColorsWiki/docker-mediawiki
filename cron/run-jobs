@@ -3,6 +3,6 @@
 cd /srv/wiki/w
 
 mkdir /var/log/mw
-sudo -u nginx -g www-data php maintenance/runJobs.php --type="enotifNotify" > /var/log/mw/runJobs.log 2>&1
-sudo -u nginx -g www-data php maintenance/runJobs.php --type="htmlCacheUpdate" --maxjobs=50 > /var/log/mw/runJobs.log 2>&1
-sudo -u nginx -g www-data php maintenance/runJobs.php --maxtime=3600 > /var/log/mw/runJobs.log 2>&1
+sudo -u nginx -g www-data php maintenance/runJobs.php --type="enotifNotify" >> /var/log/mw/runJobs.log 2>&1
+sudo -u nginx -g www-data php maintenance/runJobs.php --type="htmlCacheUpdate" --maxjobs=50 >> /var/log/mw/runJobs.log 2>&1
+sudo -u nginx -g www-data php maintenance/runJobs.php --maxtime=3600 >> /var/log/mw/runJobs.log 2>&1

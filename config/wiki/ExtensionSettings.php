@@ -85,7 +85,7 @@ $wgGroupPermissions['emailconfirmed']['sendemail'] = true;
 # EmbedVideo
 #wfLoadExtension( 'EmbedVideo' );
 #$wgFFmpegLocation = '/usr/local/bin/ffmpeg';
-#$wgFFprobeLocation = '/usr/local/bin/ffprobe';
+#$wgFFprobeLocation = '/usr/bin/ffprobe';
 
 # ReplaceText
 wfLoadExtension( 'ReplaceText' );
@@ -329,6 +329,11 @@ wfLoadExtension( 'VisualEditor' );
 
 # AWS
 wfLoadExtension( 'AWS' );
+$wgAWSRepoZones['transcoded'] = [
+        'container' => 'local-transcoded',
+        'path' => '/transcoded',
+        'isPublic' => true
+];
 
 # DarkMode - Disabled due to site-wide css corruption
 #wfLoadExtension( 'DarkMode' );

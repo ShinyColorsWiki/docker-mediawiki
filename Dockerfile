@@ -19,7 +19,7 @@ RUN apk add --update --no-cache \
     # Mediawiki configuration requirements.
     php81-curl php81-mysqli php81-mysqlnd php81-gd php81-dom php81-ctype php81-iconv php81-zlib php81-xmlreader \
     # Mediawiki caching and extensions requirements
-    php81-simplexml php81-tokenizer php81-xmlwriter php81-opcache php81-phar php81-pecl-apcu php81-pecl-redis \
+    php81-simplexml php81-tokenizer php81-xmlwriter php81-opcache php81-phar php81-pecl-apcu php81-pecl-redis php81-pcntl php81-posix \
     # Composer
     composer
 
@@ -53,9 +53,9 @@ RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/a
     # Mediawiki requirements
     php81-session php81-openssl php81-json php81-mbstring php81-fileinfo php81-intl php81-calendar php81-xml \
     # Mediawiki configuration requirements.
-    php81-curl php81-mysqli php81-mysqlnd php81-gd php81-dom php81-ctype php81-iconv php81-zlib php81-xmlreader \
+    php81-curl php81-mysqli php81-mysqlnd php81-gd php81-dom php81-ctype php81-iconv php81-zlib php81-xmlreader php81-pecl-luasandbox@testing \
     # Mediawiki caching and extensions requirements
-    php81-simplexml php81-tokenizer php81-xmlwriter php81-opcache php81-phar php81-pecl-apcu php81-pecl-redis php81-pecl-luasandbox@testing
+    php81-simplexml php81-tokenizer php81-xmlwriter php81-opcache php81-phar php81-pecl-apcu php81-pecl-redis php81-pcntl php81-posix
 
 # Make folder and copy mediawiki into here.
 RUN mkdir /srv/wiki && chown nginx:www-data /srv/wiki && \
