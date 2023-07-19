@@ -5,7 +5,8 @@
                 "extensions/AWS/composer.json",
                 "extensions/AwsSesMailer/composer.json",
                 "extensions/CrowdSec/composer.json",
-                "extensions/Sentry/composer.json"
+                "extensions/Sentry/composer.json",
+                "extensions/TimedMediaHandler/composer.json"
             ]
         }
     },
