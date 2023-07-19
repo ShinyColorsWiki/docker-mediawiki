@@ -83,7 +83,7 @@ $wgGroupPermissions['emailconfirmed']['sendemail'] = true;
 #$egVariablesDisabledFunctions = [ 'var_final' ];
 
 # EmbedVideo
-wfLoadExtension( 'EmbedVideo' );
+#wfLoadExtension( 'EmbedVideo' );
 #$wgFFmpegLocation = '/usr/local/bin/ffmpeg';
 #$wgFFprobeLocation = '/usr/local/bin/ffprobe';
 
