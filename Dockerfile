@@ -83,6 +83,7 @@ COPY run \
      cron/generate-dumps \
      cron/generate-sitemap \
      cron/run-jobs \
+     cron/run-transcode-jobs \
      cron/update-sfs \
      # Well just reduce stage...
      cron/crontab_config \
