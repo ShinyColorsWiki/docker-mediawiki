@@ -241,18 +241,8 @@ wfLoadExtension( 'SimpleBatchUpload' );
 # TimedMediaHandler
 wfLoadExtension( 'TimedMediaHandler' );
 $wgFFmpegLocation = '/usr/bin/ffmpeg';
-$wgFFprobeLocation = '/usr/bin/ffprobe';
-$wgTmhWebPlayer = 'videojs';
 $wgEnableTranscode = true;
-$wgTranscodeBackgroundTimeLimit = 3600 * 8;
 $wgTmhEnableMp4Uploads = true;
-$wgEnabledTranscodeSet = [
-        '160p.webm' => true,
-        '240p.webm' => true,
-        '360p.webm' => true,
-        '480p.webm' => true,
-        '720p.webm' => true
-];
 
 # Elastic Search
 wfLoadExtension( 'Elastica' );
