@@ -39,8 +39,8 @@ RUN COMPOSER_HOME=/tmp/composer composer update --no-dev
 # NO I WON'T USE PHP IMAGE SINCE IT'S TOO BIG
 FROM alpine:$ALPINE_VERSION
 
-# LuaSandbox package is added on testing branch. we need to add for luasandbox.
-RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
+# LuaSandbox package is added on (edge, as of v3.18) community branch. we need to add for luasandbox.
+RUN echo "@edgecommunity https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     apk add --update --no-cache \
     # Basic utils
     curl imagemagick rsvg-convert diffutils ffmpeg sudo lua tar bzip2 zstd bash mariadb-client \
@@ -53,7 +53,7 @@ RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/a
     # Mediawiki requirements
     php81-session php81-openssl php81-json php81-mbstring php81-fileinfo php81-intl php81-calendar php81-xml \
     # Mediawiki configuration requirements.
-    php81-curl php81-mysqli php81-mysqlnd php81-gd php81-dom php81-ctype php81-iconv php81-zlib php81-xmlreader php81-pecl-luasandbox@testing \
+    php81-curl php81-mysqli php81-mysqlnd php81-gd php81-dom php81-ctype php81-iconv php81-zlib php81-xmlreader php81-pecl-luasandbox@edgecommunity \
     # Mediawiki caching and extensions requirements
     php81-simplexml php81-tokenizer php81-xmlwriter php81-opcache php81-phar php81-pecl-apcu php81-pecl-redis php81-pcntl php81-posix
 
