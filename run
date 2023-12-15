@@ -13,10 +13,10 @@ sleep $seconds
 
 if [ -z "${MEDIAWIKI_SKIP_INSTALL:-}" ]; then
   echo "Start install mediawiki..."
-  DB_NAME="$(php -r 'require "/setting/secret.php"; echo $wgDBname;')"
-  DB_HOSTNAME="$(php -r 'require "/setting/secret.php"; echo $wgDBserver;')"
-  DB_USERNAME="$(php -r 'require "/setting/secret.php"; echo $wgDBuser;')"
-  DB_PASSWORD="$(php -r 'require "/setting/secret.php"; echo $wgDBpassword;')"
+  DB_NAME="$(php$_phpv -r 'require "/setting/secret.php"; echo $wgDBname;')"
+  DB_HOSTNAME="$(php$_phpv -r 'require "/setting/secret.php"; echo $wgDBserver;')"
+  DB_USERNAME="$(php$_phpv -r 'require "/setting/secret.php"; echo $wgDBuser;')"
+  DB_PASSWORD="$(php$_phpv -r 'require "/setting/secret.php"; echo $wgDBpassword;')"
   php$_phpv /srv/wiki/w/maintenance/install.php \
     --scriptpath '/w' \
     --dbtype mysql \
