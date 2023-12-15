@@ -1,5 +1,6 @@
 ARG MEDIAWIKI_VERSION=1.39.5
 ARG ALPINE_VERSION=3.19
+ARG PHP_VERSION=81
 
 # Download mediawiki
 FROM alpine:$ALPINE_VERSION as builder
@@ -13,13 +14,16 @@ COPY config/extension-list.json /tmp/mediawiki-extension-downloader.json
 RUN apk add --update --no-cache \
     curl tar gzip \
     # PHPs
-    php81 php81-fpm \
+    php$PHP_VERSION php$PHP_VERSION-fpm \
     # Mediawiki requirements
-    php81-session php81-openssl php81-json php81-mbstring php81-fileinfo php81-intl php81-calendar php81-xml \
+    php$PHP_VERSION-session php$PHP_VERSION-openssl php$PHP_VERSION-json php$PHP_VERSION-mbstring php$PHP_VERSION-fileinfo \
+    php$PHP_VERSION-intl php$PHP_VERSION-calendar php$PHP_VERSION-xml \
     # Mediawiki configuration requirements.
-    php81-curl php81-mysqli php81-mysqlnd php81-gd php81-dom php81-ctype php81-iconv php81-zlib php81-xmlreader \
+    php$PHP_VERSION-curl php$PHP_VERSION-mysqli php$PHP_VERSION-mysqlnd php$PHP_VERSION-gd php$PHP_VERSION-dom php$PHP_VERSION-ctype \
+    php$PHP_VERSION-iconv php$PHP_VERSION-zlib php$PHP_VERSION-xmlreader \
     # Mediawiki caching and extensions requirements
-    php81-simplexml php81-tokenizer php81-xmlwriter php81-opcache php81-phar php81-pecl-apcu php81-pecl-redis php81-pcntl php81-posix \
+    php$PHP_VERSION-simplexml php$PHP_VERSION-tokenizer php$PHP_VERSION-xmlwriter php$PHP_VERSION-opcache php$PHP_VERSION-phar \
+    php$PHP_VERSION-pecl-apcu php$PHP_VERSION-pecl-redis php$PHP_VERSION-pcntl php$PHP_VERSION-posix \
     # Composer
     composer
 
@@ -34,7 +38,7 @@ RUN /tmp/mediawiki-extension-downloader --config /tmp/mediawiki-extension-downlo
 
 COPY config/wiki/composer.local.json /tmp/mediawiki/
 WORKDIR /tmp/mediawiki
-RUN COMPOSER_HOME=/tmp/composer composer update --no-dev
+RUN COMPOSER_HOME=/tmp/composer /usr/bin/php$PHP_VERSION /usr/bin/composer.phar update --no-dev
 
 # NO I WON'T USE PHP IMAGE SINCE IT'S TOO BIG
 FROM alpine:$ALPINE_VERSION
@@ -48,13 +52,16 @@ RUN apk add --update --no-cache \
     # See https://github.com/krallin/tini.
     tini \
     # PHPs
-    php81 php81-fpm \
+    php$PHP_VERSION php$PHP_VERSION-fpm \
     # Mediawiki requirements
-    php81-session php81-openssl php81-json php81-mbstring php81-fileinfo php81-intl php81-calendar php81-xml \
+    php$PHP_VERSION-session php$PHP_VERSION-openssl php$PHP_VERSION-json php$PHP_VERSION-mbstring php$PHP_VERSION-fileinfo \
+    php$PHP_VERSION-intl php$PHP_VERSION-calendar php$PHP_VERSION-xml \
     # Mediawiki configuration requirements.
-    php81-curl php81-mysqli php81-mysqlnd php81-gd php81-dom php81-ctype php81-iconv php81-zlib php81-xmlreader php81-pecl-luasandbox \
+    php$PHP_VERSION-curl php$PHP_VERSION-mysqli php$PHP_VERSION-mysqlnd php$PHP_VERSION-gd php$PHP_VERSION-dom php$PHP_VERSION-ctype \
+    php$PHP_VERSION-iconv php$PHP_VERSION-zlib php$PHP_VERSION-xmlreader php$PHP_VERSION-pecl-luasandbox \
     # Mediawiki caching and extensions requirements
-    php81-simplexml php81-tokenizer php81-xmlwriter php81-opcache php81-phar php81-pecl-apcu php81-pecl-redis php81-pcntl php81-posix
+    php$PHP_VERSION-simplexml php$PHP_VERSION-tokenizer php$PHP_VERSION-xmlwriter php$PHP_VERSION-opcache php$PHP_VERSION-phar \
+    php$PHP_VERSION-pecl-apcu php$PHP_VERSION-pecl-redis php$PHP_VERSION-pcntl php$PHP_VERSION-posix
 
 # Make folder and copy mediawiki into here.
 RUN mkdir /srv/wiki && chown nginx:www-data /srv/wiki && \
