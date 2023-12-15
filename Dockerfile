@@ -5,6 +5,7 @@ ARG PHP_VERSION=81
 # Download mediawiki
 FROM alpine:$ALPINE_VERSION as builder
 ARG MEDIAWIKI_VERSION
+ARG PHP_VERSION
 
 RUN mkdir -p /tmp/composer /tmp/mediawiki
 COPY --from=ghcr.io/shinycolorswiki/mediawiki-extension-downloader:latest /app /tmp/mediawiki-extension-downloader
@@ -14,16 +15,16 @@ COPY config/extension-list.json /tmp/mediawiki-extension-downloader.json
 RUN apk add --update --no-cache \
     curl tar gzip \
     # PHPs
-    php$PHP_VERSION php$PHP_VERSION-fpm \
+    php${PHP_VERSION} php${PHP_VERSION}-fpm \
     # Mediawiki requirements
-    php$PHP_VERSION-session php$PHP_VERSION-openssl php$PHP_VERSION-json php$PHP_VERSION-mbstring php$PHP_VERSION-fileinfo \
-    php$PHP_VERSION-intl php$PHP_VERSION-calendar php$PHP_VERSION-xml \
+    php${PHP_VERSION}-session php${PHP_VERSION}-openssl php${PHP_VERSION}-json php${PHP_VERSION}-mbstring php${PHP_VERSION}-fileinfo \
+    php${PHP_VERSION}-intl php${PHP_VERSION}-calendar php${PHP_VERSION}-xml \
     # Mediawiki configuration requirements.
-    php$PHP_VERSION-curl php$PHP_VERSION-mysqli php$PHP_VERSION-mysqlnd php$PHP_VERSION-gd php$PHP_VERSION-dom php$PHP_VERSION-ctype \
-    php$PHP_VERSION-iconv php$PHP_VERSION-zlib php$PHP_VERSION-xmlreader \
+    php${PHP_VERSION}-curl php${PHP_VERSION}-mysqli php${PHP_VERSION}-mysqlnd php${PHP_VERSION}-gd php${PHP_VERSION}-dom php${PHP_VERSION}-ctype \
+    php${PHP_VERSION}-iconv php${PHP_VERSION}-zlib php${PHP_VERSION}-xmlreader \
     # Mediawiki caching and extensions requirements
-    php$PHP_VERSION-simplexml php$PHP_VERSION-tokenizer php$PHP_VERSION-xmlwriter php$PHP_VERSION-opcache php$PHP_VERSION-phar \
-    php$PHP_VERSION-pecl-apcu php$PHP_VERSION-pecl-redis php$PHP_VERSION-pcntl php$PHP_VERSION-posix \
+    php${PHP_VERSION}-simplexml php${PHP_VERSION}-tokenizer php${PHP_VERSION}-xmlwriter php${PHP_VERSION}-opcache php${PHP_VERSION}-phar \
+    php${PHP_VERSION}-pecl-apcu php${PHP_VERSION}-pecl-redis php${PHP_VERSION}-pcntl php${PHP_VERSION}-posix \
     # Composer
     composer
 
@@ -42,6 +43,7 @@ RUN COMPOSER_HOME=/tmp/composer /usr/bin/php$PHP_VERSION /usr/bin/composer.phar 
 
 # NO I WON'T USE PHP IMAGE SINCE IT'S TOO BIG
 FROM alpine:$ALPINE_VERSION
+ARG PHP_VERSION
 
 # LuaSandbox package is added on community branch (as of v3.19) ).
 RUN apk add --update --no-cache \
@@ -52,16 +54,16 @@ RUN apk add --update --no-cache \
     # See https://github.com/krallin/tini.
     tini \
     # PHPs
-    php$PHP_VERSION php$PHP_VERSION-fpm \
+    php${PHP_VERSION} php${PHP_VERSION}-fpm \
     # Mediawiki requirements
-    php$PHP_VERSION-session php$PHP_VERSION-openssl php$PHP_VERSION-json php$PHP_VERSION-mbstring php$PHP_VERSION-fileinfo \
-    php$PHP_VERSION-intl php$PHP_VERSION-calendar php$PHP_VERSION-xml \
+    php${PHP_VERSION}-session php${PHP_VERSION}-openssl php${PHP_VERSION}-json php${PHP_VERSION}-mbstring php${PHP_VERSION}-fileinfo \
+    php${PHP_VERSION}-intl php${PHP_VERSION}-calendar php${PHP_VERSION}-xml \
     # Mediawiki configuration requirements.
-    php$PHP_VERSION-curl php$PHP_VERSION-mysqli php$PHP_VERSION-mysqlnd php$PHP_VERSION-gd php$PHP_VERSION-dom php$PHP_VERSION-ctype \
-    php$PHP_VERSION-iconv php$PHP_VERSION-zlib php$PHP_VERSION-xmlreader php$PHP_VERSION-pecl-luasandbox \
+    php${PHP_VERSION}-curl php${PHP_VERSION}-mysqli php${PHP_VERSION}-mysqlnd php${PHP_VERSION}-gd php${PHP_VERSION}-dom php${PHP_VERSION}-ctype \
+    php${PHP_VERSION}-iconv php${PHP_VERSION}-zlib php${PHP_VERSION}-xmlreader php${PHP_VERSION}-pecl-luasandbox \
     # Mediawiki caching and extensions requirements
-    php$PHP_VERSION-simplexml php$PHP_VERSION-tokenizer php$PHP_VERSION-xmlwriter php$PHP_VERSION-opcache php$PHP_VERSION-phar \
-    php$PHP_VERSION-pecl-apcu php$PHP_VERSION-pecl-redis php$PHP_VERSION-pcntl php$PHP_VERSION-posix
+    php${PHP_VERSION}-simplexml php${PHP_VERSION}-tokenizer php${PHP_VERSION}-xmlwriter php${PHP_VERSION}-opcache php${PHP_VERSION}-phar \
+    php${PHP_VERSION}-pecl-apcu php${PHP_VERSION}-pecl-redis php${PHP_VERSION}-pcntl php${PHP_VERSION}-posix
 
 # Make folder and copy mediawiki into here.
 RUN mkdir /srv/wiki && chown nginx:www-data /srv/wiki && \
