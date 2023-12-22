@@ -12,7 +12,7 @@
     },
     "require": {
         "mediawiki/semantic-media-wiki": "^4.1.2",
-        "mediawiki/semantic-result-formats": "^4.1.0",
+        "mediawiki/semantic-result-formats": "^4.2.0",
         "mediawiki/semantic-scribunto": "^2.2.0",
         "mediawiki/simple-batch-upload": "^2.0"
     }
