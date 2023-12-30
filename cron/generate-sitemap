@@ -1,9 +1,12 @@
 #!/bin/sh
 
+# PHP Version
+_phpv=81
+
 cd /srv/wiki
 
 sudo -u nginx -g www-data \
-    php w/maintenance/generateSitemap.php \
+    php$_phpv w/maintenance/generateSitemap.php \
     --memory-limit=50M \
     --fspath=sitemap \
     --identifier=shinywiki \

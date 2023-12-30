@@ -4,8 +4,11 @@
 # Settings
 # --------
 
+# PHP Version
+_phpv=81
+
 datestamp=`date +'%Y-%m-%d'`
-php="sudo -u nginx -g www-data php"
+php="sudo -u nginx -g www-data php$_phpv"
 wikiname="shinywiki"
 tempdir="/tmp/wiki-dumps-$datestamp"
 workingdir="/srv/wiki"
