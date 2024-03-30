@@ -39,9 +39,9 @@ RUN /tmp/mediawiki-extension-downloader --config /tmp/mediawiki-extension-downlo
 
 COPY config/wiki/composer.local.json /tmp/mediawiki/
 WORKDIR /tmp/mediawiki
-RUN COMPOSER_HOME=/tmp/composer /usr/bin/php$PHP_VERSION /usr/bin/composer.phar update --no-dev \
-    # Upstream changes that requires to install separately. somehow.
-    && COMPOSER_HOME=/tmp/composer /usr/bin/php$PHP_VERSION /usr/bin/composer.phar update mediawiki/simple-batch-upload
+
+# Composer needs local user or set the flag for plugins. (that includes installer)
+RUN COMPOSER_HOME=/tmp/composer COMPOSER_ALLOW_SUPERUSER=1 /usr/bin/php$PHP_VERSION /usr/bin/composer.phar update --no-dev
 
 # NO I WON'T USE PHP IMAGE SINCE IT'S TOO BIG
 FROM alpine:$ALPINE_VERSION
