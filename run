@@ -4,7 +4,7 @@ set -euo pipefail
 echo "Starting wiki..."
 
 # PHP Version
-_phpv=81
+_phpv=83
 
 # Wait until other services are fully started.
 seconds=10
