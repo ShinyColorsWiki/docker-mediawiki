@@ -5,7 +5,7 @@
 # --------
 
 # PHP Version
-_phpv=81
+_phpv=83
 
 datestamp=`date +'%Y-%m-%d'`
 php="sudo -u nginx -g www-data php$_phpv"

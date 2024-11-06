@@ -104,9 +104,9 @@
                 "branch": "master"
             },
             "Sentry": {
-                "@comment": "Extension distributor has issue with Sentry Extension vendor. Download from wikimedia mirror and compose-merge.",
+                "@comment": "Extension distributor has issue with Sentry Extension vendor. Download own version and compose-merge.",
                 "type": "github",
-                "repo": "wikimedia/mediawiki-extensions-Sentry",
+                "repo": "ShinyColorsWiki/mediawiki-extensions-Sentry",
                 "branch": "master"
             },
             "TabberNeue": {
