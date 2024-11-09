@@ -25,7 +25,7 @@ wfLoadExtension( 'Interwiki' ); # for Interwiki
 $wgGroupPermissions['sysop']['interwiki'] = true;
 
 # Captcha
-wfLoadExtensions([ 'ConfirmEdit', 'ConfirmEdit/hCaptcha' ]);
+// wfLoadExtensions([ 'ConfirmEdit', 'ConfirmEdit/hCaptcha' ]);
 
 # Prevent spam
 #$wgGroupPermissions['emailconfirmed']['skipcaptcha'] = true;
@@ -33,8 +33,8 @@ wfLoadExtensions([ 'ConfirmEdit', 'ConfirmEdit/hCaptcha' ]);
 $wgGroupPermissions['autoconfirmed']['skipcaptcha'] = true;
 $wgGroupPermissions['autoconfirmed']['crowdsec-bypass'] = true;
 
-$wgCaptchaTriggers['edit'] = true;
-$wgCaptchaTriggers['create'] = true;
+// $wgCaptchaTriggers['edit'] = true;
+// $wgCaptchaTriggers['create'] = true;
 
 # AbuseFilter
 wfLoadExtension( 'AbuseFilter' );
