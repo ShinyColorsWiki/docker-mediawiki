@@ -1,6 +1,6 @@
 #!/bin/bash
 
 # PHP Version
-_phpv=83
+_phpv=84
 
 sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/StopForumSpam/maintenance/updateDenyList.php 
