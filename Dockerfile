@@ -41,7 +41,7 @@ COPY config/wiki/composer.local.json /tmp/mediawiki/
 WORKDIR /tmp/mediawiki
 
 # Composer needs local user or set the flag for plugins. (that includes installer)
-RUN COMPOSER_HOME=/tmp/composer COMPOSER_ALLOW_SUPERUSER=1 /usr/bin/php$PHP_VERSION /usr/bin/composer.phar update --no-dev
+RUN COMPOSER_HOME=/tmp/composer COMPOSER_ALLOW_SUPERUSER=1 /usr/bin/php$PHP_VERSION /usr/bin/composer.phar update --no-dev --optimize-autoloader
 
 # NO I WON'T USE PHP IMAGE SINCE IT'S TOO BIG
 FROM alpine:$ALPINE_VERSION
