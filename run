@@ -42,7 +42,7 @@ rebuild_index () {
     sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php 
 
     # SMW Elastic Index
-    # sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/SemanticMediaWiki/maintenance/rebuildElasticIndex.php
+    sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/SemanticMediaWiki/maintenance/rebuildElasticIndex.php
 }
 
 update_sfs () {
