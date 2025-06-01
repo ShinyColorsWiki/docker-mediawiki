@@ -68,30 +68,30 @@ jobs:
     - name: Try access Main_Page (repeat 1s, timeout 3m)
       timeout-minutes: 3
       if: success() || failure()
-      run: until curl -sL --fail-with-body "http://127.0.0.1:8080/wiki/Main_Page"; do sleep 1; done
+      run: until curl -sL --fail-with-body --max-time 10 "http://127.0.0.1:8080/wiki/Main_Page"; do sleep 1; done
     
     - name: Test Editor
       if: success() || failure()
-      run: curl -sL --fail-with-body "http://127.0.0.1:8080/w/index.php?title=Main_Page&action=edit"
+      run: curl -sL --fail-with-body --max-time 10 "http://127.0.0.1:8080/w/index.php?title=Main_Page&action=edit"
 
     - name: Test VisualEditor
       if: success() || failure()
-      run: curl -sL --fail-with-body "http://127.0.0.1:8080/w/api.php?action=visualeditor&format=json&page=arbitrary_page&paction=parse&wikitext=arbitrary"
+      run: curl -sL --fail-with-body --max-time 10 "http://127.0.0.1:8080/w/api.php?action=visualeditor&format=json&page=arbitrary_page&paction=parse&wikitext=arbitrary"
 
     - name: Test Special:Version (timeout 1m)
       timeout-minutes: 1
       if: success() || failure()
-      run: curl -sL --fail-with-body "http://127.0.0.1:8080/wiki/Special:Version"
+      run: curl -sL --fail-with-body --max-time 10 "http://127.0.0.1:8080/wiki/Special:Version"
 
     - name: Test Special:MathStatus (timeout 1m)
       timeout-minutes: 1
       if: success() || failure()
-      run: curl -sL --fail-with-body "http://127.0.0.1:8080/wiki/Special:MathStatus"
+      run: curl -sL --fail-with-body --max-time 10 "http://127.0.0.1:8080/wiki/Special:MathStatus"
 
     - name: Test /id/?curid=1 (timeout 1m)
       timeout-minutes: 1
       if: success() || failure()
-      run: curl -sL --fail-with-body "http://127.0.0.1:8080/id/?curid=1"
+      run: curl -sL --fail-with-body --max-time 10 "http://127.0.0.1:8080/id/?curid=1"
 
     - name: Test container healthy (timeout 1m)
       timeout-minutes: 1

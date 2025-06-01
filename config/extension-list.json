@@ -112,7 +112,7 @@
             "TabberNeue": {
                 "type": "github",
                 "repo": "StarCitizenTools/mediawiki-extensions-TabberNeue",
-                "branch": "master"
+                "branch": "REL1_39"
             }
         },
         "Composer-Install": [
