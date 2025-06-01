@@ -115,7 +115,7 @@ EXPOSE 9000
 
 # Thanks to https://stackoverflow.com/a/64041910
 ENV HEALTHCHECK_URL "http://http:8080/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json"
-HEALTHCHECK --interval=30s --timeout=30s --start-period=15s \
-    CMD curl -sf -H 'Cache-Control: no-cache, no-store' --retry 20 --max-time 2 --retry-delay 1 --retry-max-time 20 "${HEALTHCHECK_URL}" || exit 1
+HEALTHCHECK --interval=5m --timeout=2m --start-period=60s \
+    CMD curl -sf -H 'Cache-Control: no-cache, no-store' --retry 6 --max-time 5 --retry-delay 10 --retry-max-time 30 "${HEALTHCHECK_URL}" || exit 1
 
 CMD ["bash", "/usr/local/bin/run"]
