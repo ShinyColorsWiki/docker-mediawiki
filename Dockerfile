@@ -1,9 +1,9 @@
-ARG MEDIAWIKI_VERSION=1.39.13
-ARG ALPINE_VERSION=3.20
+ARG MEDIAWIKI_VERSION=1.43.3
+ARG ALPINE_VERSION=3.22
 ARG PHP_VERSION=83
 
 # Download mediawiki
-FROM alpine:$ALPINE_VERSION as builder
+FROM alpine:$ALPINE_VERSION AS builder
 ARG MEDIAWIKI_VERSION
 ARG PHP_VERSION
 
@@ -41,7 +41,7 @@ COPY config/wiki/composer.local.json /tmp/mediawiki/
 WORKDIR /tmp/mediawiki
 
 # Composer needs local user or set the flag for plugins. (that includes installer)
-RUN COMPOSER_HOME=/tmp/composer COMPOSER_ALLOW_SUPERUSER=1 /usr/bin/php$PHP_VERSION /usr/bin/composer.phar update --no-dev
+RUN COMPOSER_HOME=/tmp/composer COMPOSER_ALLOW_SUPERUSER=1 /usr/bin/php$PHP_VERSION /usr/bin/composer.phar update --no-dev --optimize-autoloader
 
 # NO I WON'T USE PHP IMAGE SINCE IT'S TOO BIG
 FROM alpine:$ALPINE_VERSION
@@ -103,8 +103,8 @@ COPY run \
 RUN crontab /usr/local/bin/crontab_config && rm /usr/local/bin/crontab_config \
     && bash -c 'chmod +x /usr/local/bin/{run,generate-backup,generate-dumps,generate-sitemap,run-jobs,update-sfs}'
 
-ENV XDG_CONFIG_HOME /config
-ENV XDG_DATA_HOME /data
+ENV XDG_CONFIG_HOME=/config
+ENV XDG_DATA_HOME=/data
 
 WORKDIR /srv/wiki
 
@@ -116,7 +116,7 @@ EXPOSE 443
 EXPOSE 9000
 
 # Thanks to https://stackoverflow.com/a/64041910
-ENV HEALTHCHECK_URL "http://http:8080/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json"
+ENV HEALTHCHECK_URL="http://http:8080/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json"
 HEALTHCHECK --interval=5m --timeout=2m --start-period=300s \
     CMD curl \
         -sf \

@@ -1,5 +1,5 @@
 {
-    "MWREL": "REL1_39",
+    "MWREL": "REL1_43",
     "Extensions": {
         "WMF": [
             "AbuseFilter",
@@ -32,7 +32,6 @@
             "InputBox",
             "Interwiki",
             "JsonConfig",
-            "LocalisationUpdate",
             "LookupUser",
             "Math",
             "MobileFrontend",
