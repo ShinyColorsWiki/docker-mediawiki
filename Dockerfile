@@ -55,12 +55,12 @@ RUN <<EOF
         # Basic utils \
         curl imagemagick rsvg-convert diffutils ffmpeg sudo lua tar bzip2 zstd bash mariadb-client \
         # Web server \
-        nginx \ 
+        nginx \
         # See https://github.com/krallin/tini. \
         tini \
         # due to index eats cpu, need limit \
-        cpulimit
-        # PHPs
+        cpulimit \
+        # PHPs \
         php${PHP_VERSION} php${PHP_VERSION}-fpm \
         # Mediawiki requirements \
         php${PHP_VERSION}-session php${PHP_VERSION}-openssl php${PHP_VERSION}-json php${PHP_VERSION}-mbstring php${PHP_VERSION}-fileinfo \
