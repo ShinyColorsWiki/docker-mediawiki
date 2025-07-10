@@ -36,22 +36,22 @@ ln -sf /setting/aws.env /etc/aws.env
 
 rebuild_index () {
     # Search Elastic Index
-    sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php --startOver && \
-    sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip & \
-    sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse & \
-    sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php 
+    sudo -u nginx -g www-data cpulimit -l 25 -v -i -z php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php --startOver 2>/dev/null && \
+    sudo -u nginx -g www-data cpulimit -l 25 -v -i -z php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip 2>/dev/nul & \
+    sudo -u nginx -g www-data cpulimit -l 25 -v -i -z php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse 2>/dev/nul & \
+    sudo -u nginx -g www-data cpulimit -l 25 -v -i -z php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php 2>/dev/nul
 
     # SMW Elastic Index
     local attempt=1
     local max_attempts=5
 
     while [ $attempt -le $max_attempts ]; do
-        echo "SMW Elastic Index 시도 $attempt/$max_attempts..."
+        echo "SMW Elastic Index attempt $attempt/$max_attempts..."
         if sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/SemanticMediaWiki/maintenance/rebuildElasticIndex.php; then
-            echo "-> rebuildElasticIndex.php succeed (Attempt: $attempt)"
+            echo "-> rebuildElasticIndex.php succeed (attempt: $attempt)"
             break
         else
-            echo "-> rebuildElasticIndex.php failed (시도 $attempt)"
+            echo "-> rebuildElasticIndex.php failed (retry attempt: $attempt)"
             attempt=$((attempt + 1))
             if [ $attempt -le $max_attempts ]; then
                 echo "retry in 15 seconds..."
