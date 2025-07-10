@@ -26,8 +26,7 @@ php${PHP_VERSION}-ctype php${PHP_VERSION}-curl php${PHP_VERSION}-dom php${PHP_VE
 php${PHP_VERSION}-opcache php${PHP_VERSION}-pcntl php${PHP_VERSION}-pecl-apcu php${PHP_VERSION}-pecl-redis php${PHP_VERSION}-phar php${PHP_VERSION}-posix php${PHP_VERSION}-simplexml php${PHP_VERSION}-tokenizer php${PHP_VERSION}-xmlwriter
 # Composer
 composer
-EOF
-)
+EOF )
 
 ARG BUILD_VER=0
 
@@ -70,8 +69,7 @@ php${PHP_VERSION}-iconv php${PHP_VERSION}-zlib php${PHP_VERSION}-xmlreader php${
 # Mediawiki caching and extensions requirements
 php${PHP_VERSION}-simplexml php${PHP_VERSION}-tokenizer php${PHP_VERSION}-xmlwriter php${PHP_VERSION}-opcache php${PHP_VERSION}-phar
 php${PHP_VERSION}-pecl-apcu php${PHP_VERSION}-pecl-redis php${PHP_VERSION}-pcntl php${PHP_VERSION}-posix
-EOF
-)
+EOF )
 
 # Make folder and copy mediawiki into here.
 RUN mkdir /srv/wiki && chown nginx:www-data /srv/wiki && \
