@@ -3,7 +3,7 @@ ARG ALPINE_VERSION=3.22
 ARG PHP_VERSION=83
 
 # Download mediawiki
-FROM alpine:$ALPINE_VERSION as builder
+FROM alpine:$ALPINE_VERSION AS builder
 ARG MEDIAWIKI_VERSION
 ARG PHP_VERSION
 
@@ -103,8 +103,8 @@ COPY run \
 RUN crontab /usr/local/bin/crontab_config && rm /usr/local/bin/crontab_config \
     && bash -c 'chmod +x /usr/local/bin/{run,generate-backup,generate-dumps,generate-sitemap,run-jobs,update-sfs}'
 
-ENV XDG_CONFIG_HOME /config
-ENV XDG_DATA_HOME /data
+ENV XDG_CONFIG_HOME=/config
+ENV XDG_DATA_HOME=/data
 
 WORKDIR /srv/wiki
 
@@ -116,7 +116,7 @@ EXPOSE 443
 EXPOSE 9000
 
 # Thanks to https://stackoverflow.com/a/64041910
-ENV HEALTHCHECK_URL "http://http:8080/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json"
+ENV HEALTHCHECK_URL="http://http:8080/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json"
 HEALTHCHECK --interval=5m --timeout=2m --start-period=300s \
     CMD curl \
         -sf \
