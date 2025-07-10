@@ -52,7 +52,7 @@ RUN apk add --update --no-cache \
     # Basic utils
     curl imagemagick rsvg-convert diffutils ffmpeg sudo lua tar bzip2 zstd bash mariadb-client \
     # Web server
-    nginx \ 
+    nginx \
     # See https://github.com/krallin/tini.
     tini \
     # due to index eats cpu, need limit
