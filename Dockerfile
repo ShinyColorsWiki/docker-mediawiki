@@ -1,4 +1,4 @@
-ARG MEDIAWIKI_VERSION=1.39.12
+ARG MEDIAWIKI_VERSION=1.39.13
 ARG ALPINE_VERSION=3.20
 ARG PHP_VERSION=83
 
@@ -55,6 +55,8 @@ RUN apk add --update --no-cache \
     nginx \ 
     # See https://github.com/krallin/tini.
     tini \
+    # due to index eats cpu, need limit \
+    cpulimit
     # PHPs
     php${PHP_VERSION} php${PHP_VERSION}-fpm \
     # Mediawiki requirements
@@ -115,7 +117,7 @@ EXPOSE 9000
 
 # Thanks to https://stackoverflow.com/a/64041910
 ENV HEALTHCHECK_URL "http://http:8080/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json"
-HEALTHCHECK --interval=5m --timeout=2m --start-period=60s \
+HEALTHCHECK --interval=5m --timeout=2m --start-period=300s \
     CMD curl \
         -sf \
         -H 'Cache-Control: no-cache, no-store' \
