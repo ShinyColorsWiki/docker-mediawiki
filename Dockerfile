@@ -15,18 +15,18 @@ COPY config/extension-list.json /tmp/mediawiki-extension-downloader.json
 RUN <<EOF
     apk add --update --no-cache \
         curl tar gzip \
-        # PHP core
+        # PHP core \
         php${PHP_VERSION} php${PHP_VERSION}-fpm \
-        # Mediawiki core
+        # Mediawiki core \
         php${PHP_VERSION}-session php${PHP_VERSION}-openssl php${PHP_VERSION}-json php${PHP_VERSION}-mbstring php${PHP_VERSION}-fileinfo \
         php${PHP_VERSION}-intl php${PHP_VERSION}-calendar php${PHP_VERSION}-xml \
-        # Mediawiki configuration
+        # Mediawiki configuration \
         php${PHP_VERSION}-curl php${PHP_VERSION}-mysqli php${PHP_VERSION}-mysqlnd php${PHP_VERSION}-gd php${PHP_VERSION}-dom php${PHP_VERSION}-ctype \
         php${PHP_VERSION}-iconv php${PHP_VERSION}-zlib php${PHP_VERSION}-xmlreader \
-        # Caching and extensions
+        # Caching and extensions \
         php${PHP_VERSION}-simplexml php${PHP_VERSION}-tokenizer php${PHP_VERSION}-xmlwriter php${PHP_VERSION}-opcache php${PHP_VERSION}-phar \
         php${PHP_VERSION}-pecl-apcu php${PHP_VERSION}-pecl-redis php${PHP_VERSION}-pcntl php${PHP_VERSION}-posix \
-        # Composer
+        # Composer \
         composer
 EOF
 
@@ -52,23 +52,23 @@ ARG PHP_VERSION
 # LuaSandbox package is added on community branch (as of v3.19) ).
 RUN <<EOF
     apk add --update --no-cache \
-        # Basic utils
+        # Basic utils \
         curl imagemagick rsvg-convert diffutils ffmpeg sudo lua tar bzip2 zstd bash mariadb-client \
-        # Web server
+        # Web server \
         nginx \ 
-        # See https://github.com/krallin/tini.
+        # See https://github.com/krallin/tini. \
         tini \
         # due to index eats cpu, need limit \
         cpulimit
         # PHPs
         php${PHP_VERSION} php${PHP_VERSION}-fpm \
-        # Mediawiki requirements
+        # Mediawiki requirements \
         php${PHP_VERSION}-session php${PHP_VERSION}-openssl php${PHP_VERSION}-json php${PHP_VERSION}-mbstring php${PHP_VERSION}-fileinfo \
         php${PHP_VERSION}-intl php${PHP_VERSION}-calendar php${PHP_VERSION}-xml \
-        # Mediawiki configuration requirements.
+        # Mediawiki configuration requirements. \
         php${PHP_VERSION}-curl php${PHP_VERSION}-mysqli php${PHP_VERSION}-mysqlnd php${PHP_VERSION}-gd php${PHP_VERSION}-dom php${PHP_VERSION}-ctype \
         php${PHP_VERSION}-iconv php${PHP_VERSION}-zlib php${PHP_VERSION}-xmlreader php${PHP_VERSION}-pecl-luasandbox \
-        # Mediawiki caching and extensions requirements
+        # Mediawiki caching and extensions requirements \
         php${PHP_VERSION}-simplexml php${PHP_VERSION}-tokenizer php${PHP_VERSION}-xmlwriter php${PHP_VERSION}-opcache php${PHP_VERSION}-phar \
         php${PHP_VERSION}-pecl-apcu php${PHP_VERSION}-pecl-redis php${PHP_VERSION}-pcntl php${PHP_VERSION}-posix
 EOF
