@@ -6,8 +6,7 @@ _phpv=83
 cd /srv/wiki
 
 sudo -u nginx -g www-data \
-    php$_phpv /srv/wiki/w/maintenance/run.php \
-        /srv/wiki/w/maintenance/generateSitemap.php \
+    php$_phpv /srv/wiki/w/maintenance/run.php generateSitemap \
     --memory-limit=50M \
     --fspath=sitemap \
     --identifier=shinywiki \

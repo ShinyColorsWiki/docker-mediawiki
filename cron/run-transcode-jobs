@@ -10,4 +10,4 @@ maintenance() {
 }
 
 mkdir -p /var/log/mw
-maintenance /srv/wiki/w/maintenance/runJobs.php --type="webVideoTranscode" >> /var/log/mw/runJobs.log 2>&1
+maintenance runJobs --type="webVideoTranscode" >> /var/log/mw/runJobs.log 2>&1

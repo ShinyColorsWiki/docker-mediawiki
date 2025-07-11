@@ -3,4 +3,4 @@
 # PHP Version
 _phpv=83
 
-sudo -u nginx -g www-data php$_phpv /srv/wiki/w/maintenance/run.php /srv/wiki/w/extensions/StopForumSpam/maintenance/updateDenyList.php 
+sudo -u nginx -g www-data php$_phpv /srv/wiki/w/maintenance/run.php StopForumSpam:updateDenyList

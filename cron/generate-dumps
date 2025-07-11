@@ -33,11 +33,11 @@ rm /etc/aws.env.sh
 
 # --- Generate ---
 
-maintenance $workingdir/w/maintenance/dumpBackup.php \
+maintenance dumpBackup \
   --current --output="bzip2:${tempdir}/${wikiname}-current-${datestamp}.xml.bz2"
 
 if [[ "$day" == "01" || "$day" == "15" ]]; then
-  maintenance $workingdir/w/maintenance/ \
+  maintenance dumpBackup \
     --full --output="bzip2:${tempdir}/${wikiname}-full-${datestamp}.xml.bz2"
 fi
 

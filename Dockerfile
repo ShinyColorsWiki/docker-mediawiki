@@ -101,7 +101,9 @@ COPY run \
      cron/crontab_config \
      /usr/local/bin/
 RUN crontab /usr/local/bin/crontab_config && rm /usr/local/bin/crontab_config \
-    && bash -c 'chmod +x /usr/local/bin/{run,generate-backup,generate-dumps,generate-sitemap,run-jobs,update-sfs}'
+    && bash -c 'chmod +x /usr/local/bin/{run,generate-backup,generate-dumps,generate-sitemap,run-jobs,update-sfs}' \
+    # TODO: Remove this when it is released - SemanticMediaWiki/SemanticMediaWiki#6150
+    && curl -sL https://patch-diff.githubusercontent.com/raw/SemanticMediaWiki/SemanticMediaWiki/pull/6152.diff | patch -d /srv/wiki/w/extensions/SemanticMediaWiki -p1
 
 ENV XDG_CONFIG_HOME=/config
 ENV XDG_DATA_HOME=/data
