@@ -1,5 +1,6 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
 # --------
 # Settings
 # --------
@@ -7,19 +8,23 @@
 # PHP Version
 _phpv=83
 
-datestamp=`date +'%Y-%m-%d'`
-php="sudo -u nginx -g www-data php$_phpv"
+datestamp=$(date +%F)
+day=$(date +%d)
+php_cmd=(sudo -u nginx -g www-data php"${_phpv}")
 wikiname="shinywiki"
-tempdir="/tmp/wiki-dumps-$datestamp"
+tempdir="/tmp/wiki-dumps-${datestamp}"
 workingdir="/srv/wiki"
 
+
+maintenance() {
+    "${php_cmd[@]}" "$workingdir/w/maintenance/run.php" "$@"
+}
+
 ## START
-echo " START "
+echo " BACKUP START "
 
-day=`date +'%d'`
-
-mkdir $tempdir
-chown nginx:www-data $tempdir
+mkdir -p "$tempdir"
+chown nginx:www-data "$tempdir"
 
 # Get AWS Environment...
 cat /etc/aws.env | sed 's/^\(.*\)$/export \1/g' | grep -E "^export AWS" | cat - > /etc/aws.env.sh
@@ -28,24 +33,28 @@ rm /etc/aws.env.sh
 
 # --- Generate ---
 
-$php $workingdir/w/maintenance/dumpBackup.php --current --output=bzip2:$tempdir/$wikiname-current-$datestamp.xml.bz2
-if [ $day == "01" ] || [ $day == "15" ]
-then
-    $php $workingdir/w/maintenance/dumpBackup.php --full --output=bzip2:$tempdir/$wikiname-full-$datestamp.xml.bz2
+maintenance dumpBackup \
+  --current --output="bzip2:${tempdir}/${wikiname}-current-${datestamp}.xml.bz2"
+
+if [[ "$day" == "01" || "$day" == "15" ]]; then
+  maintenance dumpBackup \
+    --full --output="bzip2:${tempdir}/${wikiname}-full-${datestamp}.xml.bz2"
 fi
 
 # --- Upload ---
 
-/usr/local/bin/s3-uploader -b $AWS_BUCKET_DUMP -f $tempdir/$wikiname-current-$datestamp.xml.bz2
-if [ $day == "01" ] || [ $day == "15" ]
-then
-    /usr/local/bin/s3-uploader -b $AWS_BUCKET_DUMP -f $tempdir/$wikiname-full-$datestamp.xml.bz2
+/usr/local/bin/s3-uploader -b "$AWS_BUCKET_DUMP" \
+  -f "${tempdir}/${wikiname}-current-${datestamp}.xml.bz2"
+
+if [[ "$day" == "01" || "$day" == "15" ]]; then
+  /usr/local/bin/s3-uploader -b "$AWS_BUCKET_DUMP" \
+    -f "${tempdir}/${wikiname}-full-${datestamp}.xml.bz2"
 fi
 
 # --- Cleanup ---
 
 cd /
 
-rm -rf $tempdir
+rm -rf "$tempdir"
 
-echo " DONE "
+echo " BACKUP DONE "

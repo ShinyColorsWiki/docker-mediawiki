@@ -11,6 +11,14 @@ seconds=10
 echo "Wait $seconds(s) for boot other system..."
 sleep $seconds
 
+maintenance() {
+    sudo -u nginx -g www-data php$_phpv /srv/wiki/w/maintenance/run.php "$@"
+}
+
+cpu_limit_maintenance() {
+    cpulimit -l 25 -i -z sudo -u nginx -g www-data php$_phpv /srv/wiki/w/maintenance/run.php "$@"
+}
+
 if [ -z "${MEDIAWIKI_SKIP_INSTALL:-}" ]; then
   echo "Start install mediawiki..."
   DB_NAME="$(php$_phpv -r 'require "/setting/secret.php"; echo $wgDBname;')"
@@ -36,29 +44,29 @@ ln -sf /setting/aws.env /etc/aws.env
 
 rebuild_index () {
     # Search Elastic Index
-    cpulimit -l 10 -i -z sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php --startOver 2>/dev/null && \
-    cpulimit -l 10 -i -z sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip 2>/dev/null & \
-    cpulimit -l 10 -i -z sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse 2>/dev/null & \
-    cpulimit -l 10 -i -z sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/CirrusSearch/maintenance/ForceSearchIndex.php 2>/dev/null
+    cpu_limit_maintenance CirrusSearch:UpdateSearchIndexConfig --startOver 2>/dev/null && \
+    cpu_limit_maintenance CirrusSearch:ForceSearchIndex --skipLinks --indexOnSkip 2>/dev/null & \
+    cpu_limit_maintenance CirrusSearch:ForceSearchIndex --skipParse 2>/dev/null & \
+    cpu_limit_maintenance CirrusSearch:ForceSearchIndex 2>/dev/null
 
     # SMW Elastic Index
-    local attempt=1
-    local max_attempts=5
+    # local attempt=1
+    # local max_attempts=5
 
-    while [ $attempt -le $max_attempts ]; do
-        echo "SMW Elastic Index attempt $attempt/$max_attempts..."
-        if cpulimit -l 10 -i -z sudo -u nginx -g www-data php$_phpv /srv/wiki/w/extensions/SemanticMediaWiki/maintenance/rebuildElasticIndex.php; then
-            echo "-> rebuildElasticIndex.php succeed (attempt: $attempt)"
-            break
-        else
-            echo "-> rebuildElasticIndex.php failed (retry attempt: $attempt)"
-            attempt=$((attempt + 1))
-            if [ $attempt -le $max_attempts ]; then
-                echo "retry in 15 seconds..."
-                sleep 15
-            fi
-        fi
-    done
+    # while [ $attempt -le $max_attempts ]; do
+    #     echo "SMW Elastic Index attempt $attempt/$max_attempts..."
+    #     if cpu_limit_maintenance SemanticMediaWiki:rebuildElasticIndex; then
+    #         echo "-> rebuildElasticIndex.php succeed (attempt: $attempt)"
+    #         break
+    #     else
+    #         echo "-> rebuildElasticIndex.php failed (retry attempt: $attempt)"
+    #         attempt=$((attempt + 1))
+    #         if [ $attempt -le $max_attempts ]; then
+    #             echo "retry in 15 seconds..."
+    #             sleep 15
+    #         fi
+    #     fi
+    # done
 }
 
 update_sfs () {
@@ -67,7 +75,7 @@ update_sfs () {
 }
 
 if [ -z "${MEDIAWIKI_SKIP_UPDATE:-}" ]; then
-    sudo -u nginx -g www-data php$_phpv /srv/wiki/w/maintenance/update.php --quick 
+    maintenance update --quick 
 fi
 
 # Start cron daemon
