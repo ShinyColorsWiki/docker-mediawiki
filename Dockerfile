@@ -57,6 +57,8 @@ RUN apk add --update --no-cache \
     tini \
     # due to index eats cpu, need limit
     cpulimit \
+    # patch
+    patch \
     # PHPs
     php${PHP_VERSION} php${PHP_VERSION}-fpm \
     # Mediawiki requirements
