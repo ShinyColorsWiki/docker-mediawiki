@@ -16,7 +16,7 @@ maintenance() {
 }
 
 cpu_limit_maintenance() {
-    cpulimit -l 10 -i -z sudo -u nginx -g www-data php$_phpv /srv/wiki/w/maintenance/run.php "$@"
+    cpulimit -l 25 -i -z sudo -u nginx -g www-data php$_phpv /srv/wiki/w/maintenance/run.php "$@"
 }
 
 if [ -z "${MEDIAWIKI_SKIP_INSTALL:-}" ]; then
@@ -44,29 +44,29 @@ ln -sf /setting/aws.env /etc/aws.env
 
 rebuild_index () {
     # Search Elastic Index
-    cpu_limit_maintenance CirrusSearch:UpdateSearchIndexConfig.php --startOver 2>/dev/null && \
-    cpu_limit_maintenance CirrusSearch:ForceSearchIndex.php --skipLinks --indexOnSkip 2>/dev/null & \
-    cpu_limit_maintenance CirrusSearch:ForceSearchIndex.php --skipParse 2>/dev/null & \
-    cpu_limit_maintenance CirrusSearch:ForceSearchIndex.php 2>/dev/null
+    cpu_limit_maintenance CirrusSearch:UpdateSearchIndexConfig --startOver 2>/dev/null && \
+    cpu_limit_maintenance CirrusSearch:ForceSearchIndex --skipLinks --indexOnSkip 2>/dev/null & \
+    cpu_limit_maintenance CirrusSearch:ForceSearchIndex --skipParse 2>/dev/null & \
+    cpu_limit_maintenance CirrusSearch:ForceSearchIndex 2>/dev/null
 
     # SMW Elastic Index
-    local attempt=1
-    local max_attempts=5
+    # local attempt=1
+    # local max_attempts=5
 
-    while [ $attempt -le $max_attempts ]; do
-        echo "SMW Elastic Index attempt $attempt/$max_attempts..."
-        if cpu_limit_maintenance SemanticMediaWiki:rebuildElasticIndex.php; then
-            echo "-> rebuildElasticIndex.php succeed (attempt: $attempt)"
-            break
-        else
-            echo "-> rebuildElasticIndex.php failed (retry attempt: $attempt)"
-            attempt=$((attempt + 1))
-            if [ $attempt -le $max_attempts ]; then
-                echo "retry in 15 seconds..."
-                sleep 15
-            fi
-        fi
-    done
+    # while [ $attempt -le $max_attempts ]; do
+    #     echo "SMW Elastic Index attempt $attempt/$max_attempts..."
+    #     if cpu_limit_maintenance SemanticMediaWiki:rebuildElasticIndex; then
+    #         echo "-> rebuildElasticIndex.php succeed (attempt: $attempt)"
+    #         break
+    #     else
+    #         echo "-> rebuildElasticIndex.php failed (retry attempt: $attempt)"
+    #         attempt=$((attempt + 1))
+    #         if [ $attempt -le $max_attempts ]; then
+    #             echo "retry in 15 seconds..."
+    #             sleep 15
+    #         fi
+    #     fi
+    # done
 }
 
 update_sfs () {
