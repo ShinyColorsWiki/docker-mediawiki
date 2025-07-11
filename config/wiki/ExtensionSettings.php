@@ -247,9 +247,11 @@ $wgTmhEnableMp4Uploads = true;
 # Elastic Search
 wfLoadExtension( 'Elastica' );
 wfLoadExtension( 'CirrusSearch' );
+$wgSearchType = 'CirrusSearch';
 $wgCirrusSearchClusters = [
     'default' => [ 'elasticsearch' ],
 ];
+
 
 # Related Articles that depends CirrusSearch(Elasticearch)
 wfLoadExtension( 'RelatedArticles' );
@@ -315,11 +317,11 @@ $smwgNamespace = 'https://shinycolors.wiki/id/';
 // $smwgDefaultStore = 'SMW\Elastic\ElasticStore';
 $smwgElasticsearchEndpoints = [ 'elasticsearch:9200' ];
 $smwgDVFeatures = $smwgDVFeatures | SMW_DV_PVUC;
-$wgSearchType = 'SMWSearch';
-use CirrusSearch\CirrusSearch;
-$smwgFallbackSearchType = function() {
-        return new CirrusSearch();
-};
+// $wgSearchType = 'SMWSearch';
+// use CirrusSearch\CirrusSearch;
+// $smwgFallbackSearchType = function() {
+        // return new CirrusSearch();
+// };
 
 # Secure Link Fixer
 wfLoadExtension( 'SecureLinkFixer' );
