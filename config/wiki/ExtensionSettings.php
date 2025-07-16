@@ -138,11 +138,6 @@ wfLoadExtension( 'TwoColConflict' );
 # Popups
 wfLoadExtension( 'TextExtracts' ); # Dependency
 wfLoadExtension( 'Popups' );
-$wgPopupsBetaFeature = true;
-$wgPopupsExperiment = true;
-#$wgPopupsHideOptInOnPreferencesPage = true;
-$wgPopupsOptInDefaultState = '0';
-
 
 # Echo for Notifications.
 wfLoadExtension( 'Echo' );
