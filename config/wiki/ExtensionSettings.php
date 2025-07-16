@@ -348,3 +348,9 @@ wfLoadExtension( 'CrowdSec' );
 
 # TabberNeue
 wfLoadExtension( 'TabberNeue' );
+
+# Honeypot
+wfLoadExtension( 'HoneyPot' );
+
+# LoginNotify
+wfLoadExtension( 'LoginNotify' );
