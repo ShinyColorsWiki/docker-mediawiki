@@ -312,11 +312,6 @@ $smwgNamespace = 'https://shinycolors.wiki/id/';
 // $smwgDefaultStore = 'SMW\Elastic\ElasticStore';
 $smwgElasticsearchEndpoints = [ 'elasticsearch:9200' ];
 $smwgDVFeatures = $smwgDVFeatures | SMW_DV_PVUC;
-// $wgSearchType = 'SMWSearch';
-// use CirrusSearch\CirrusSearch;
-// $smwgFallbackSearchType = function() {
-        // return new CirrusSearch();
-// };
 
 # Secure Link Fixer
 wfLoadExtension( 'SecureLinkFixer' );
