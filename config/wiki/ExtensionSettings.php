@@ -77,11 +77,6 @@ wfLoadExtension( 'BetaFeatures' );
 $wgGroupPermissions['user']['sendemail'] = false;
 $wgGroupPermissions['emailconfirmed']['sendemail'] = true;
 
-# Variables and Loops (Disabled due to deperecation of MW hooks)
-#wfLoadExtension( 'Variables' );
-#wfLoadExtension( 'Loops' );
-#$egVariablesDisabledFunctions = [ 'var_final' ];
-
 # EmbedVideo
 #wfLoadExtension( 'EmbedVideo' );
 #$wgFFmpegLocation = '/usr/local/bin/ffmpeg';
@@ -222,7 +217,6 @@ $wgCargoHideNamespaceName[] = NS_USER;
 
 # Widgets
 wfLoadExtension( 'Widgets' );
-#require_once "$IP/extensions/Widgets/Widgets.php";
 
 # UploadWizard
 #wfLoadExtension( 'UploadWizard' );
@@ -327,14 +321,8 @@ $wgAWSRepoZones['transcoded'] = [
         'isPublic' => true
 ];
 
-# DarkMode - Disabled due to site-wide css corruption
-#wfLoadExtension( 'DarkMode' );
-
 # CrowdSec
 wfLoadExtension( 'CrowdSec' );
-
-# Tabs
-#wfLoadExtension( 'Tabs' );
 
 # TabberNeue
 wfLoadExtension( 'TabberNeue' );
