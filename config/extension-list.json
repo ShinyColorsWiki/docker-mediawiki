@@ -7,7 +7,6 @@
             "AntiSpoof",
             "BetaFeatures",
             "Buggy",
-            "Cargo",
             "CategoryTree",
             "CheckUser",
             "CirrusSearch",
@@ -85,6 +84,11 @@
                 "type": "github",
                 "repo": "ShinyColorsWiki/Mediawiki-AWS-SES-Mailer",
                 "branch": "master"
+            },
+            "Cargo": {
+                "type": "github",
+                "repo": "wikimedia/mediawiki-extensions-Cargo",
+                "tag": "3.9.2"
             },
             "CrowdSec": {
                 "type": "github",
