@@ -8,7 +8,7 @@ ARG MEDIAWIKI_VERSION
 ARG PHP_VERSION
 
 RUN mkdir -p /tmp/composer /tmp/mediawiki
-COPY --from=ghcr.io/shinycolorswiki/mediawiki-extension-downloader:latest /app /tmp/mediawiki-extension-downloader
+COPY --from=ghcr.io/shinycolorswiki/mediawiki-extension-downloader:a6f6f5872771fa3fdeac544234c2669996009d1a /app /tmp/mediawiki-extension-downloader
 COPY config/extension-list.json /tmp/mediawiki-extension-downloader.json
 
 # Install PHP Redis and some other extensions
