@@ -88,7 +88,7 @@
             "Cargo": {
                 "type": "github",
                 "repo": "wikimedia/mediawiki-extensions-Cargo",
-                "tag": "3.9.2"
+                "tag": "3.9.4"
             },
             "CrowdSec": {
                 "type": "github",

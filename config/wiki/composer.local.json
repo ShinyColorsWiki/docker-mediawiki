@@ -11,9 +11,9 @@
         }
     },
     "require": {
-        "mediawiki/semantic-media-wiki": "^6.0.0",
-        "mediawiki/semantic-result-formats": "^5.2.0",
-        "mediawiki/semantic-scribunto": "^2.3.3",
-        "mediawiki/simple-batch-upload": "^2.0.1"
+        "mediawiki/semantic-media-wiki": "^7.3.1",
+        "mediawiki/semantic-result-formats": "^6.0.0",
+        "mediawiki/semantic-scribunto": "^3.0.0",
+        "mediawiki/simple-batch-upload": "^4.0.0"
     }
 }
