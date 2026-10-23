@@ -2,6 +2,17 @@ ARG MEDIAWIKI_VERSION=1.43.11
 ARG ALPINE_VERSION=3.24
 ARG PHP_VERSION=83
 
+FROM alpine:$ALPINE_VERSION AS chart-renderer
+ARG CHART_RENDERER_REVISION=543b8eec4fa9f56110f3fa3d6957c077e5dc4438
+RUN apk add --no-cache nodejs npm curl tar
+WORKDIR /opt/chart-renderer
+RUN curl -fSL "https://gitlab.wikimedia.org/repos/mediawiki/services/chart-renderer/-/archive/${CHART_RENDERER_REVISION}/chart-renderer-${CHART_RENDERER_REVISION}.tar.gz" -o /tmp/chart-renderer.tar.gz \
+    && tar -xzf /tmp/chart-renderer.tar.gz --strip-components=1 \
+    && rm /tmp/chart-renderer.tar.gz \
+    && npm install --no-audit --no-fund \
+    && npm run build \
+    && npm prune --omit=dev --no-audit --no-fund
+
 # Download mediawiki
 FROM alpine:$ALPINE_VERSION AS builder
 ARG MEDIAWIKI_VERSION
@@ -51,6 +62,7 @@ ARG PHP_VERSION
 RUN apk add --update --no-cache \
     # Basic utils
     curl imagemagick rsvg-convert diffutils ffmpeg sudo lua tar bzip2 zstd bash mariadb-client \
+    nodejs \
     # Web server
     nginx \
     # See https://github.com/krallin/tini.
@@ -73,6 +85,7 @@ RUN apk add --update --no-cache \
 RUN mkdir /srv/wiki && chown nginx:www-data /srv/wiki && \
     sudo -u nginx -g www-data mkdir -p /srv/wiki/w/ /srv/wiki/sitemap
 COPY --from=builder --chown=nginx:www-data /tmp/mediawiki /srv/wiki/w/
+COPY --from=chart-renderer /opt/chart-renderer /opt/chart-renderer
 
 # Set Permissions here.
 # Widgets need permission to write compiled template.

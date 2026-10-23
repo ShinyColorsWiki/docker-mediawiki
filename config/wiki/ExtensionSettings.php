@@ -254,9 +254,26 @@ $wgDefaultUserOptions['math'] = 'mathml';
 $wgMathFullRestbaseURL = 'https://wikimedia.org/api/rest_';
 $wgMathMathMLUrl = 'https://mathoid-beta.wmflabs.org';
 
-# Graph
+# Chart
 wfLoadExtension( 'JsonConfig' ); # dependency
-wfLoadExtension( 'Graph' );
+wfLoadExtension( 'Chart' );
+$wgChartCliPath = '/opt/chart-renderer/cli.js';
+$wgJsonConfigModels['Tabular.JsonConfig'] = 'JsonConfig\JCTabularContent';
+$wgJsonConfigs['Tabular.JsonConfig'] = [
+        'namespace' => 486,
+        'nsName' => 'Data',
+        'pattern' => '/.\.tab$/',
+        'license' => 'CC0-1.0',
+        'isLocal' => true,
+];
+$wgJsonConfigModels['Chart.JsonConfig'] = 'MediaWiki\Extension\Chart\JCChartContent';
+$wgJsonConfigs['Chart.JsonConfig'] = [
+        'namespace' => 486,
+        'nsName' => 'Data',
+        'pattern' => '/.\.chart$/',
+        'license' => 'CC0-1.0',
+        'isLocal' => true,
+];
 
 # TrustedXFF
 wfLoadExtension( 'TrustedXFF' );
